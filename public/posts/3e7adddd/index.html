@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="5AUIVYTbHIAuz-eQtxSfZbWW5eg9_EVZMSQycIuXrG0">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Inconsolata:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"sunheyi.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.22.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":true,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.22.0/config.min.js"></script>
+
+    <meta name="description" content="单机最多10万并发 阿里开发   集群部署 架构图   原理   高可用 主从架构及多副本策略  Borker有主和副之分，master broker 主要负责写入  master borker 收到消息之后会同步给slave broker ，保证一个机器宕机之后，另一个机器有数据  slave broker固定时间会从master broker拉取数据，这就是所谓的主从同步  每个broker启">
+<meta property="og:type" content="article">
+<meta property="og:title" content="rocketmq">
+<meta property="og:url" content="https://sunheyi.com/posts/3e7adddd/index.html">
+<meta property="og:site_name" content="流殃">
+<meta property="og:description" content="单机最多10万并发 阿里开发   集群部署 架构图   原理   高可用 主从架构及多副本策略  Borker有主和副之分，master broker 主要负责写入  master borker 收到消息之后会同步给slave broker ，保证一个机器宕机之后，另一个机器有数据  slave broker固定时间会从master broker拉取数据，这就是所谓的主从同步  每个broker启">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f5d27582a681480c9ed1870ba1d5c749~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f13fbb8e198e4adcba63578c2eb05122~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e26fed33a45e4042a7398c58c0900fe0~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0daa0696115344faa5326681596266c1~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/90cdb1095d54408f99941399d156c68e~tplv-k3u1fbpfcp-watermark.image">
+<meta property="article:published_time" content="2021-03-26T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-03-02T03:37:34.405Z">
+<meta property="article:tag" content="无标签">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f5d27582a681480c9ed1870ba1d5c749~tplv-k3u1fbpfcp-watermark.image">
+
+
+<link rel="canonical" href="https://sunheyi.com/posts/3e7adddd/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://sunheyi.com/posts/3e7adddd/","path":"posts/3e7adddd/","title":"rocketmq"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>rocketmq | 流殃</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MZXCQSZ8FT"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-MZXCQSZ8FT","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.22.0/third-party/analytics/google-analytics.min.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">流殃</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-首页"><a href="/" rel="section"><i class="fa fa-bell fa-fw"></i>首页</a></li><li class="menu-item menu-item-分类"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-标签"><a href="/tags/" rel="section"><i class="fa  fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-文章"><a href="/archives/" rel="section"><i class="fa  fa-archive fa-fw"></i>文章</a></li><li class="menu-item menu-item-关于"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-友链"><a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>友链</a></li><li class="menu-item menu-item-留言"><a href="/message/" rel="section"><i class="fa fa-envelope fa-fw"></i>留言</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="Searching..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2"><span class="nav-number">1.</span> <span class="nav-text">集群部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%B6%E6%9E%84%E5%9B%BE"><span class="nav-number">1.1.</span> <span class="nav-text">架构图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">1.2.</span> <span class="nav-text">原理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AB%98%E5%8F%AF%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">高可用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E8%8E%B7%E5%8F%96%E6%9D%A5%E6%BA%90"><span class="nav-number">2.0.1.</span> <span class="nav-text">消息获取来源</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%87%8D%E7%82%B9"><span class="nav-number">2.0.2.</span> <span class="nav-text">重点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85"><span class="nav-number">3.</span> <span class="nav-text">下载安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%9D%E8%AF%81%E6%B6%88%E6%81%AF%E4%B8%8D%E4%B8%A2%E5%A4%B1"><span class="nav-number">4.</span> <span class="nav-text">保证消息不丢失</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%91%E9%80%81%E6%B6%88%E6%81%AF%E5%88%B0mq%E9%9B%B6%E4%B8%A2%E5%A4%B1"><span class="nav-number">4.1.</span> <span class="nav-text">发送消息到mq零丢失</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mq%E6%94%B6%E5%88%B0%E6%B6%88%E6%81%AF%E4%B9%8B%E5%90%8E%E9%9B%B6%E4%B8%A2%E5%A4%B1"><span class="nav-number">4.2.</span> <span class="nav-text">mq收到消息之后零丢失</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85%E6%94%B6%E5%88%B0%E6%B6%88%E6%81%AF%E4%B9%8B%E5%90%8E%E9%9B%B6%E4%B8%A2%E5%A4%B1"><span class="nav-number">4.3.</span> <span class="nav-text">消费者收到消息之后零丢失</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%82%E7%AD%89%E6%80%A7"><span class="nav-number">5.</span> <span class="nav-text">幂等性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E5%A4%8D%E6%B6%88%E6%81%AF"><span class="nav-number">6.</span> <span class="nav-text">重复消息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85"><span class="nav-number">7.</span> <span class="nav-text">消费者</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#push"><span class="nav-number">7.1.</span> <span class="nav-text">push</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pull"><span class="nav-number">7.2.</span> <span class="nav-text">pull</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%9D%E8%AF%81%E6%B6%88%E6%81%AF%E4%B8%8D%E4%B8%A2%E5%A4%B1-1"><span class="nav-number">7.3.</span> <span class="nav-text">保证消息不丢失</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85"><span class="nav-number">8.</span> <span class="nav-text">生产者</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E5%8F%91%E9%80%81%E6%B6%88%E6%81%AF"><span class="nav-number">8.1.</span> <span class="nav-text">同步发送消息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5%E5%8F%91%E9%80%81%E6%B6%88%E6%81%AF"><span class="nav-number">8.2.</span> <span class="nav-text">异步发送消息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E5%90%91%E5%8F%91%E9%80%81%E6%B6%88%E6%81%AF"><span class="nav-number">8.3.</span> <span class="nav-text">单向发送消息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%9D%E8%AF%81%E6%B6%88%E6%81%AF%E5%8F%91%E9%80%81%E6%88%90%E5%8A%9F"><span class="nav-number">8.4.</span> <span class="nav-text">保证消息发送成功</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#half"><span class="nav-number">8.5.</span> <span class="nav-text">half</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%80%E5%B7%A7"><span class="nav-number">8.6.</span> <span class="nav-text">技巧</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%81%E4%B9%85%E5%8C%96"><span class="nav-number">9.</span> <span class="nav-text">持久化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#broker"><span class="nav-number">9.1.</span> <span class="nav-text">broker</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%98%E5%8C%96"><span class="nav-number">9.1.1.</span> <span class="nav-text">优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mmap"><span class="nav-number">9.1.2.</span> <span class="nav-text">mmap</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#messagequeue"><span class="nav-number">9.2.</span> <span class="nav-text">messagequeue</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dledger"><span class="nav-number">10.</span> <span class="nav-text">Dledger</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#what"><span class="nav-number">10.1.</span> <span class="nav-text">what</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#why"><span class="nav-number">10.2.</span> <span class="nav-text">why</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E5%89%AF%E6%9C%AC%E5%90%8C%E6%AD%A5"><span class="nav-number">10.3.</span> <span class="nav-text">多副本同步</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#uncommitted%E9%98%B6%E6%AE%B5"><span class="nav-number">10.3.1.</span> <span class="nav-text">uncommitted阶段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#committed%E9%98%B6%E6%AE%B5"><span class="nav-number">10.3.2.</span> <span class="nav-text">committed阶段</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%9E%8B"><span class="nav-number">11.</span> <span class="nav-text">网络通信架构模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E4%B8%A2%E5%A4%B1"><span class="nav-number">12.</span> <span class="nav-text">消息丢失</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt=""
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name"></p>
+  <div class="site-description" itemprop="description">欢迎来到我的个人博客，这里是我的一些个人记录，希望能够给你带来一些帮助。</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">109</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3N1bmhleWk2" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;sunheyi6"><i class="fab fa-github fa-fw"></i></span>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <span class="exturl cc-opacity" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC8="><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/big/by_nc_sa.svg" alt="Creative Commons"></span>
+  </div>
+<div class="sidebar-button animated">
+
+</div>
+<div class="cc-license animated" itemprop="sponsor">
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://sunheyi.com/posts/3e7adddd/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="流殃">
+      <meta itemprop="description" content="欢迎来到我的个人博客，这里是我的一些个人记录，希望能够给你带来一些帮助。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="rocketmq | 流殃">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          rocketmq<span class="exturl post-edit-link" data-url="aHR0cHM6Ly9naXRodWIuY29tL25leHQtdGhlbWUvdGhlbWUtbmV4dC1kb2NzL2VkaXQvbWFzdGVyL3NvdXJjZS9fcG9zdHMvcm9ja2V0bXEubWQ=" title="Edit this post"><i class="fa fa-pen-nib"></i></span>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-03-27 00:00:00" itemprop="dateCreated datePublished" datetime="2021-03-27T00:00:00+08:00">2021-03-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2025-03-02 11:37:34" itemprop="dateModified" datetime="2025-03-02T11:37:34+08:00">2025-03-02</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>单机最多10万并发 阿里开发 </p>
+<span id="more"></span>
+
+
+
+<h2 id="集群部署"><a href="#集群部署" class="headerlink" title="集群部署"></a>集群部署</h2><h3 id="架构图"><a href="#架构图" class="headerlink" title="架构图"></a>架构图</h3><p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f5d27582a681480c9ed1870ba1d5c749~tplv-k3u1fbpfcp-watermark.image" loading="lazy"></p>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f13fbb8e198e4adcba63578c2eb05122~tplv-k3u1fbpfcp-watermark.image" loading="lazy"></p>
+<h2 id="高可用"><a href="#高可用" class="headerlink" title="高可用"></a>高可用</h2><p>主从架构及多副本策略</p>
+<p>Borker有主和副之分，master broker 主要负责写入</p>
+<p>master borker 收到消息之后会同步给slave broker ，保证一个机器宕机之后，另一个机器有数据</p>
+<p>slave broker固定时间会从master broker拉取数据，这就是所谓的主从同步</p>
+<p>每个broker启动都要向所有的nameserver进行注册。</p>
+<p>因为如果只是向个别nameserver进行注册的话，当一台nameserver宕机之后，就会丢失broker的信息</p>
+<p>nameserver和borker之间有个心跳机制，保证当broker宕机之后，nameserver会及时感知到</p>
+<blockquote>
+<p>每隔固定时间，broker会向nameserver发送心跳，nameserver会将这个最新心跳时间更新</p>
+</blockquote>
+<p>nameserver每隔固定时间来扫描所有broker的心跳时间，如果超过一个数据，将认为这个broker宕机</p>
+<p>心跳传输的时候，还会降</p>
+<h4 id="消息获取来源"><a href="#消息获取来源" class="headerlink" title="消息获取来源"></a>消息获取来源</h4><p>消息获取可能来自于master broker，也可能来自于slave broker</p>
+<p>broker将消息返回给请求系统的时候，会向系统建议下一次消息请求要请求master broker或者slave broker，</p>
+<h4 id="重点"><a href="#重点" class="headerlink" title="重点"></a>重点</h4><p>rocketmq4.5之前不是完全的高可用模式，当master broker宕机之后，不会自动切换到slave broker，需要人手动修改</p>
+<p>4.5之后，采用一种Dledger的机制来支持master broker宕机之后自动切换到slaver broker</p>
+<p>Dledger采用的是raft算法</p>
+<h2 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#下载rocketmq</span><br><span class="line"></span><br><span class="line">https:<span class="comment">//github.com/apache/rocketmq</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#下载dledger </span><br><span class="line"></span><br><span class="line">https:<span class="comment">//github.com/openmessaging/openmessaging-storage-dledger </span></span><br><span class="line"></span><br><span class="line">#可视化界面</span><br><span class="line"></span><br><span class="line">https:<span class="comment">//github.com/apache/rocketmq-externals </span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="保证消息不丢失"><a href="#保证消息不丢失" class="headerlink" title="保证消息不丢失"></a>保证消息不丢失</h2><h3 id="发送消息到mq零丢失"><a href="#发送消息到mq零丢失" class="headerlink" title="发送消息到mq零丢失"></a>发送消息到mq零丢失</h3><ol>
+<li><p>同步发送消息+反复多次重试</p>
+</li>
+<li><p>rocketmq事务消息机制，这个整体效果会更好一点</p>
+</li>
+</ol>
+<h3 id="mq收到消息之后零丢失"><a href="#mq收到消息之后零丢失" class="headerlink" title="mq收到消息之后零丢失"></a>mq收到消息之后零丢失</h3><p>开启同步刷盘+主从架构同步机制</p>
+<p>将数据写入磁盘后，并且将数据写入到slave broker的磁盘之后才返回给生产者，消息写入mq成功</p>
+<h3 id="消费者收到消息之后零丢失"><a href="#消费者收到消息之后零丢失" class="headerlink" title="消费者收到消息之后零丢失"></a>消费者收到消息之后零丢失</h3><p>rocketmq天然就保证了，因为rocketmq默认就是当消息处理之后才会返回给mq消息发送成功，而不是在执行消息处理逻辑之前就将成功的消息返回给mq了</p>
+<h2 id="幂等性"><a href="#幂等性" class="headerlink" title="幂等性"></a>幂等性</h2><p>避免对同一</p>
+<ol>
+<li><p>业务方法判断，当重试的时候，提前发送一条消息到mq中查询这个条消息是否已经发送过了，如果有则不再发送，没有则发送</p>
+</li>
+<li><p>状态查询 你写入到mq一条消息，将消息也写入到redis中，写入id和订单状态，当接口重复调用的时候，就去redis中年查询一下，根据id查询状态，成功则不再发送，失败则再次发送</p>
+</li>
+</ol>
+<p>redis这种方案有缺陷，还有可能会重复消费</p>
+<p>就是你将消息发送到mq，没有来得及写redis，redis宕机了，重启之后会将重新发一次消息，这样就有两条消息了；所以一般来说推荐使用业务方法来进行判断</p>
+<h2 id="重复消息"><a href="#重复消息" class="headerlink" title="重复消息"></a>重复消息</h2><p>会有专门的重试队列，最多重试16次，16次之后进入死信队列，死信队列的处理方式是自定义，看业务需求</p>
+<p>当业务由于某种原因故障不能消费消息时,可以返回reconsume_laster,将消息加入到延时消息consumerGroup中进行消息的重试最大15次阶梯型重试,15失败后放入到死信队列中消费者则专门开启线程进行消费</p>
+<h2 id="消费者"><a href="#消费者" class="headerlink" title="消费者"></a>消费者</h2><p>消费者消费消息的方式有两种，一种是push，broker主动向consumer不定时发送消息；一种是pull，consumer不定时从broker拉取消息</p>
+<h3 id="push"><a href="#push" class="headerlink" title="push"></a>push</h3><p>本质上也是消费者不停向broker发送消息拉取数据</p>
+<p>消费者在处理完一批消息之后，会立马发送请求到broker拉取消息，看起来好像是broker不定时向消费者推送信息一样，其实是消费者不停向broker发送消息拉取数据</p>
+<p>当请求发送到broker的时候，发现没有消息可以消费，就会让这个请求线程挂起，默认挂起15秒，然后后台有一个线程不停地检查broker中是否有消息，有的话，会主动将请求线程唤醒，然后消费者拿到消息</p>
+<h3 id="pull"><a href="#pull" class="headerlink" title="pull"></a>pull</h3><h3 id="保证消息不丢失-1"><a href="#保证消息不丢失-1" class="headerlink" title="保证消息不丢失"></a>保证消息不丢失</h3><p>消息如果发送到消费者了，但是可能消费者还没有真正消费消息，就宕机了，此时消息在系统缓存中，但是却返回给mq的消息是消费者消费消息成功了</p>
+<p>同步机制</p>
+<p>当消费者真正执行完消息的处理逻辑之后，再将成功的消息返回给mq</p>
+<p>不能用异步机制，因为异步机制可能导致消费者还没有消费好消息的时候，已经将成功的消息给mq了</p>
+<p>，如果此时消费者宕机了，那么返回给mq的消息就是假的，虽然返回的是储成功的消息，但是实际上并没有成功</p>
+<h2 id="生产者"><a href="#生产者" class="headerlink" title="生产者"></a>生产者</h2><h3 id="同步发送消息"><a href="#同步发送消息" class="headerlink" title="同步发送消息"></a>同步发送消息</h3><p>发送消息给mq，等待mq返回结果，没有返回结果的话，就会卡在这里</p>
+<h3 id="异步发送消息"><a href="#异步发送消息" class="headerlink" title="异步发送消息"></a>异步发送消息</h3><p>发送消息给mq，不等待mq返回结果，cpu去干别的事儿了，等到mq返回消息后，代码会继续执行下去</p>
+<h3 id="单向发送消息"><a href="#单向发送消息" class="headerlink" title="单向发送消息"></a>单向发送消息</h3><p>发送消息给mq就可以了，不管mq是否返回信息</p>
+<h3 id="保证消息发送成功"><a href="#保证消息发送成功" class="headerlink" title="保证消息发送成功"></a>保证消息发送成功</h3><ul>
+<li><p>half消息对消费者不可见</p>
+<p>一般一个消息到mq之后会写入对应的topic&#x2F;messageque&#x2F;consumerqueue中，但是rocketmq识别到消息为half消息后，会将消息写入rocketmq的内部topic中，所以消费者对于half来说是不可见的</p>
+</li>
+</ul>
+<p>比如你买东西，已经付款到了订单系统，发了一次half发现mq没有返回消息，mq挂了，于是进行资金回退。</p>
+<p>如果本地事务失败了，会让订单系统给mq发送一个rollback，表示我这里失败了，无法接受你返回的消息</p>
+<p>如果rollback和commit失败了，由于mq里面的消息一直处于half状态，长时间没有回应之后就知道mq出现问题，这个时候需要判断下订单的状态是“已完成”吗 是的话，再次commit请求，不是的话，再次执行rollback请求，</p>
+<p>如何执行rollback</p>
+<p>将rollback记录写入到op_+topic,标记某个half消息是rollback的了</p>
+<p>假设一直没有执行rollback或者commit，mq最多会调用15次接口来判断half消息的状态，如果15次之后还是没有知道half消息的状态，就会自动将消息标记为rollback</p>
+<h3 id="half"><a href="#half" class="headerlink" title="half"></a>half</h3><p>每次发送消息之前，就要发送half消息到mq，如果mq正常工作就会返回一个ok给生产者，生产者就可以发送真正的消息了，如果返回的不是ok，就表示mq有问题，此时就会进行消息回滚</p>
+<p>上面其实有三个步骤</p>
+<ol>
+<li><p>producer发half给mq</p>
+</li>
+<li><p>mq给producer返回信息</p>
+</li>
+<li><p>producer进行下一步处理</p>
+</li>
+</ol>
+<p>上面三步其实都可能出现问题，那么如何保证不出现问题那，请继续往下看</p>
+<p>针对以上三个步骤进行下面三个回复</p>
+<ol>
+<li><p>如果producer发送half消息失败，会调用一个本地线程来查看half消息在限定时间内有消息返回，如果没有则就按回滚处理</p>
+</li>
+<li><p>如果mq给producer返回信息失败，mq会调用一个本地线程来查看half消息在限定时间内有消息返回，如果没有则就按回滚处理</p>
+</li>
+<li></li>
+</ol>
+<p>如何确保half消息发送成功</p>
+<p>消息写入到RMQ_SYS_TRANS_HALF_TOPIC</p>
+<h3 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h3><p>可以将使用阿里的cannal的技术来同步mysql的binlog</p>
+<p>一个topic的数据放在多个messagequeue上，实现分布式存储</p>
+<h2 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h2><h3 id="broker"><a href="#broker" class="headerlink" title="broker"></a>broker</h3><p>broker收到消息后会将所有消息顺序写入到磁盘中，叫做commitlog，会有一个参数来规定commitlog的最大容量，达到最大容量后会自动创建一个新的commitlog来进行写入</p>
+<p>磁盘顺序写+os cache写入+os异步刷盘</p>
+<p>broker收到消息之后并不是直接写入磁盘的，是将消息写入到系统缓存中，然后系统缓存不定时将消息写入磁盘</p>
+<p>异步刷盘会有数据丢失的风险，比如将数据写入到系统缓存之后，系统突然宕机了，生产者以为将消息已经写入了，但是实际上并没有写入到磁盘中</p>
+<p>同步刷盘的意思就是每次必须将数据写入到磁盘中以后才叫做消息发送完成</p>
+<h4 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h4><p>文件预热</p>
+<p>madvise系统调用，会尽可能能将数据从磁盘空间加载到内存中，减少数据从磁盘空间加载到内存的次数</p>
+<h4 id="mmap"><a href="#mmap" class="headerlink" title="mmap"></a>mmap</h4><p>普通的将数据存储在磁盘的过程如下</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e26fed33a45e4042a7398c58c0900fe0~tplv-k3u1fbpfcp-watermark.image" loading="lazy"></p>
+<p>需要进行两次拷贝</p>
+<p>mmap只需要进行一次拷贝</p>
+<p>原因：就是把磁盘文件地址和线程私有空间做了一个映射，一旦写入到虚拟内存后，直接拷贝到磁盘空间中即可，不用二次拷贝了（即拷贝到线程私有空间，再拷贝到磁盘空间中）</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0daa0696115344faa5326681596266c1~tplv-k3u1fbpfcp-watermark.image" loading="lazy"></p>
+<h3 id="messagequeue"><a href="#messagequeue" class="headerlink" title="messagequeue"></a>messagequeue</h3><p>一个topic下面有多个messagequeeu，一个messagequeeu下只有一个consumerqueue</p>
+<p>messagequeue在broker的存储上是这样的</p>
+<p>会存储在相应topic&#x2F;messagequeeu0&#x2F;consumerqueue0</p>
+<p>每次broker收到消息之后，会将消息顺序写入磁盘，同时也会将这个消息的物理存储位置记录在topic&#x2F;messagequeeu0&#x2F;consumerqueue0中，这样方便消费者过来消费消息的时候，可以知道消息存放的位置</p>
+<h2 id="Dledger"><a href="#Dledger" class="headerlink" title="Dledger"></a>Dledger</h2><h3 id="what"><a href="#what" class="headerlink" title="what"></a>what</h3><p>这个机制可以保证当leader broker失效的时候，可以自动切换到slave broker，</p>
+<h3 id="why"><a href="#why" class="headerlink" title="why"></a>why</h3><p>采用的是raft算法，简单来讲就是 所有的broker每个人都会投票给自己，第一轮所有人都会投票给自己，然后进行随机休眠，比如broker1休眠2秒，broker2休眠3秒，broker3休眠4秒，从数据来看肯定是broker1先苏醒，他投票给自己，将自己的投票发给其他人，剩下两个发现别人已经投票过了，于是跟随投票，所以broker就被选举上了，成为了leader broker</p>
+<p>投票完成：机器数量&#x2F;2+1，就表示大多数，就是说当有大多数人投票以后，不需要其他人发表意见，直接将大多人的意见作为最后的意见</p>
+<p>broker投票机制</p>
+<ol>
+<li><p>有人已经投票的话，会尊重他们的意见，跟随投票</p>
+</li>
+<li><p>会给自己投票</p>
+</li>
+</ol>
+<p>上面的顺序也是优先级的顺序</p>
+<h3 id="多副本同步"><a href="#多副本同步" class="headerlink" title="多副本同步"></a>多副本同步</h3><p>分为两个阶段</p>
+<ol>
+<li><p>uncommitted阶段</p>
+</li>
+<li><p>committed阶段</p>
+</li>
+</ol>
+<h4 id="uncommitted阶段"><a href="#uncommitted阶段" class="headerlink" title="uncommitted阶段"></a>uncommitted阶段</h4><p>leader broker收到数据后，会标记为uncommitted状态，然后通过他自己的dledger server组件把这个数据发送给slave broker的dledger server</p>
+<h4 id="committed阶段"><a href="#committed阶段" class="headerlink" title="committed阶段"></a>committed阶段</h4><p>slave broker的dledger server收到消息之后，会回复一个ack给leader broker的dledger server，当leader broker收到一半以上的slave broker之后，会将数据标记为committed的状态</p>
+<p>然后leader broker的slave broker将committed的状态发送给slave broker的dledger server消息同步完成</p>
+<h2 id="网络通信架构模型"><a href="#网络通信架构模型" class="headerlink" title="网络通信架构模型"></a>网络通信架构模型</h2><p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/90cdb1095d54408f99941399d156c68e~tplv-k3u1fbpfcp-watermark.image" loading="lazy"></p>
+<p>rocketmq的网络通信架构模型。首先生产者和服务端通过reactor主线程建立tcp长连接，客户端与服务端采用socketchannel进行通信，通过socketschannel发送消息，通过reactor线程池去监听socketchannel的消息到达。reactor线程池只负责把消息取出来，在消息被正式处理前需要加密验证，编码解码，网络连接管理通过worker线程池去做这些准备工作。再通过sendmessage线程池去发送消息。reactor主线程负责建立长连接reactor多线程并发监听消息请求达到。再通过worker多线程去处理消息，读写磁盘通过业务线程池处理，各个线程池执行时，不会影响其他线程池在其他环节处理请求。 reactor线程池采用aio多路复用</p>
+<h2 id="消息丢失"><a href="#消息丢失" class="headerlink" title="消息丢失"></a>消息丢失</h2><p>三种情况</p>
+<ol>
+<li><p>生产者发送消息的时候，由于网络故障或者master broker宕机导致broker没有收到消息，可以通过重试机制和备忘录机制多次发送失败后进行消息补偿</p>
+</li>
+<li><p>消息到达mq,rocketmq丢消息,当使用异步刷盘时可能消息对于的commit log还在page cache中未刷新到磁盘此时broker的物理机宕机了重启导致page cache中数据丢失,如果选择了同步刷盘消息存储到磁盘后也可能存在丢失当磁盘故障时,此时我们可以通过冗余备份磁盘的方式保证尽量丢少的消息</p>
+</li>
+<li><p>消息保存到mq,消费者消费消息时未进行ack让mq以为消息消费成功了跳到了下一个offset此时通过ack机制来保证消息不丢失</p>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%97%A0%E6%A0%87%E7%AD%BE/" rel="tag"># 无标签</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/fe4c9cb6/" rel="prev" title="volatile">
+                  <i class="fa fa-angle-left"></i> volatile
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/a680d5af/" rel="next" title="redis集群配置">
+                  redis集群配置 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2014 – 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">NexT</span>
+  </div>
+  <div class="powered-by">Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl" data-url="aHR0cHM6Ly90aGVtZS1uZXh0LmpzLm9yZw==">NexT.Gemini</span>
+  </div><div class="footer-custom">
+Website source code <span class="exturl theme-link" data-url="aHR0cHM6Ly9naXRodWIuY29tL2hleG8tbmV4dC9oZXhvLW5leHQuZ2l0aHViLmlv">here</span>
+</div>
+
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <span class="exturl github-corner" data-url="aHR0cHM6Ly9naXRodWIuY29tL25leHQtdGhlbWUvaGV4by10aGVtZS1uZXh0" title="Follow me on GitHub" aria-label="Follow me on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></span>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.22.0/comments.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.22.0/utils.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.22.0/motion.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.22.0/sidebar.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.22.0/next-boot.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.22.0/pjax.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.22.0/third-party/search/local-search.min.js"></script>
+
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.min.js","integrity":"sha256-G8ouPAnw4zzMbnAenHnVz6h9XpKbNdOkrqTh7AadyHs="}}</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.22.0/third-party/tags/mermaid.min.js"></script>
+
+  <script class="next-config" data-name="wavedrom" type="application/json">{"enable":true,"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/wavedrom/3.5.0/wavedrom.min.js","integrity":"sha256-INLAoJc6quTNfiMWkGZniYO2cxE8mHpddnLow1m6RFs="}}</script>
+  <script class="next-config" data-name="wavedrom_skin" type="application/json">{"enable":true,"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/wavedrom/3.5.0/skins/default.js","integrity":"sha256-fduc/Zszk5ezWws2uInY/ALWVmIrmV6VTgXbsYSReFI="}}</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.22.0/third-party/tags/wavedrom.min.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.22.0/third-party/math/mathjax.min.js"></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,69 @@
+.text-center {
+  text-align: center;
+}
+
+.site-author-image {
+  background: white;
+  background-clip: content-box;
+}
+
+.sidebar .sidebar-button {
+  &:not(:last-child) {
+    margin-bottom: 15px;
+  }
+
+  a {
+    button($orange);
+    border: 1px solid $orange;
+    border-radius: 4px;
+    // To make line-height in button mixin work
+    display: inline-block;
+
+    .fa, .fab, .far, .fas {
+      margin-right: 5px;
+    }
+
+    if (($scheme == 'Pisces') or ($scheme == 'Gemini')) {
+      border: 0;
+      color: $orange;
+      display: block;
+
+      &:hover {
+        background: none;
+        border: 0;
+        color: darken($orange, 20%);
+      }
+    }
+  }
+}
+
+body {
+    background:url(/images/background.jpg) !important;
+    background-repeat: no-repeat !important;
+    background-attachment:fixed !important; //不重复
+    background-size: cover !important;      //填充
+    background-position:50% 50% !important;
+      font-size: 18px;
+}
+
+
+//博客内容透明化
+//文章内容的透明度设置
+.content-wrap {
+  opacity: 0.8;
+}
+
+//侧边框的透明度设置
+.sidebar {
+  opacity: 0.8;
+}
+
+//菜单栏的透明度设置
+.header-inner {
+  background: rgba(255,255,255,0.9);
+}
+
+//搜索框（local-search）的透明度设置
+.popup {
+  opacity: 0.8;
+}

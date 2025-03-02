@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="5AUIVYTbHIAuz-eQtxSfZbWW5eg9_EVZMSQycIuXrG0">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Inconsolata:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"sunheyi.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.22.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":true,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.22.0/config.min.js"></script>
+
+    <meta name="description" content="java八股文之hashmap  基本认识 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27    &#x2F;&#x2F;默认初始容量 - 必须是2的幂次方  static final int DEFAULT_INITIAL_CAPACITY &#x3D; 1 &lt; 4;   &#x2F;&#x2F;hashmap的最大容量 2的30次方  static">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hashmap">
+<meta property="og:url" content="https://sunheyi.com/posts/ca913759/index.html">
+<meta property="og:site_name" content="流殃">
+<meta property="og:description" content="java八股文之hashmap  基本认识 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27    &#x2F;&#x2F;默认初始容量 - 必须是2的幂次方  static final int DEFAULT_INITIAL_CAPACITY &#x3D; 1 &lt; 4;   &#x2F;&#x2F;hashmap的最大容量 2的30次方  static">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gitee.com/flow_disaster/blog-map-bed/raw/master/img/image-20210429120122736.png">
+<meta property="article:published_time" content="2021-04-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-03-02T03:37:34.382Z">
+<meta property="article:tag" content="无标签">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/flow_disaster/blog-map-bed/raw/master/img/image-20210429120122736.png">
+
+
+<link rel="canonical" href="https://sunheyi.com/posts/ca913759/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://sunheyi.com/posts/ca913759/","path":"posts/ca913759/","title":"hashmap"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>hashmap | 流殃</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MZXCQSZ8FT"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-MZXCQSZ8FT","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.22.0/third-party/analytics/google-analytics.min.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">流殃</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-首页"><a href="/" rel="section"><i class="fa fa-bell fa-fw"></i>首页</a></li><li class="menu-item menu-item-分类"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-标签"><a href="/tags/" rel="section"><i class="fa  fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-文章"><a href="/archives/" rel="section"><i class="fa  fa-archive fa-fw"></i>文章</a></li><li class="menu-item menu-item-关于"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-友链"><a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>友链</a></li><li class="menu-item menu-item-留言"><a href="/message/" rel="section"><i class="fa fa-envelope fa-fw"></i>留言</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="Searching..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E8%AE%A4%E8%AF%86"><span class="nav-number">1.</span> <span class="nav-text">基本认识</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%80%E5%A4%A7%E5%AE%B9%E9%87%8F%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%8D%E8%B6%85%E8%BF%871"><span class="nav-number">1.1.</span> <span class="nav-text">最大容量为什么是不超过1&lt;&lt;30？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%B0%86%E9%93%BE%E8%A1%A8%E4%B8%AD%E8%BD%AC%E7%BA%A2%E9%BB%91%E6%A0%91%E7%9A%84%E9%98%88%E5%80%BC%E8%AE%BE%E4%B8%BA8%EF%BC%9F"><span class="nav-number">1.2.</span> <span class="nav-text">为什么要将链表中转红黑树的阈值设为8？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-8%E5%92%8C1-7%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.3.</span> <span class="nav-text">1.8和1.7的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%93%BE%E8%A1%A8%E4%B8%BA%E4%BB%80%E4%B9%88%E7%94%A8%E5%B0%BE%E6%8F%92%E6%B3%95"><span class="nav-number">1.4.</span> <span class="nav-text">链表为什么用尾插法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%89%A9%E5%AE%B9%E6%97%B6%E4%B8%A4%E5%80%8D%E6%89%A9%E5%AE%B9"><span class="nav-number">1.5.</span> <span class="nav-text">为什么扩容时两倍扩容</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#hash"><span class="nav-number">2.1.</span> <span class="nav-text">hash</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#hashcode"><span class="nav-number">2.1.1.</span> <span class="nav-text">hashcode</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8hashcode"><span class="nav-number">2.1.1.1.</span> <span class="nav-text">为什么使用hashcode</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.1.2.</span> <span class="nav-text">代码实现</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hashmap"><span class="nav-number">2.2.</span> <span class="nav-text">hashmap</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#resize"><span class="nav-number">2.3.</span> <span class="nav-text">resize</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#put"><span class="nav-number">2.4.</span> <span class="nav-text">put</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#putVal"><span class="nav-number">2.5.</span> <span class="nav-text">putVal</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#treeifyBin"><span class="nav-number">2.6.</span> <span class="nav-text">treeifyBin</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%81%8D%E5%8E%86"><span class="nav-number">3.</span> <span class="nav-text">遍历</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E5%BC%8F"><span class="nav-number">3.1.</span> <span class="nav-text">方式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#lambda"><span class="nav-number">3.1.1.</span> <span class="nav-text">lambda</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#for-each"><span class="nav-number">3.1.2.</span> <span class="nav-text">for each</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BF%AD%E4%BB%A3%E9%94%AE%E5%80%BC%E5%AF%B9"><span class="nav-number">3.1.3.</span> <span class="nav-text">迭代键值对</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Iterator"><span class="nav-number">3.1.4.</span> <span class="nav-text">Iterator</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">3.2.</span> <span class="nav-text">原理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8"><span class="nav-number">4.</span> <span class="nav-text">线程安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="nav-number">5.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt=""
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name"></p>
+  <div class="site-description" itemprop="description">欢迎来到我的个人博客，这里是我的一些个人记录，希望能够给你带来一些帮助。</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">109</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3N1bmhleWk2" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;sunheyi6"><i class="fab fa-github fa-fw"></i></span>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <span class="exturl cc-opacity" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC8="><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/big/by_nc_sa.svg" alt="Creative Commons"></span>
+  </div>
+<div class="sidebar-button animated">
+
+</div>
+<div class="cc-license animated" itemprop="sponsor">
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://sunheyi.com/posts/ca913759/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="流殃">
+      <meta itemprop="description" content="欢迎来到我的个人博客，这里是我的一些个人记录，希望能够给你带来一些帮助。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="hashmap | 流殃">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          hashmap<span class="exturl post-edit-link" data-url="aHR0cHM6Ly9naXRodWIuY29tL25leHQtdGhlbWUvdGhlbWUtbmV4dC1kb2NzL2VkaXQvbWFzdGVyL3NvdXJjZS9fcG9zdHMvaGFzaG1hcC5tZA==" title="Edit this post"><i class="fa fa-pen-nib"></i></span>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-04-29 00:00:00" itemprop="dateCreated datePublished" datetime="2021-04-29T00:00:00+08:00">2021-04-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2025-03-02 11:37:34" itemprop="dateModified" datetime="2025-03-02T11:37:34+08:00">2025-03-02</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>java八股文之hashmap</p>
+<span id="more"></span>
+
+
+
+<h3 id="基本认识"><a href="#基本认识" class="headerlink" title="基本认识"></a>基本认识</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//默认初始容量 - 必须是2的幂次方</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">DEFAULT_INITIAL_CAPACITY</span> <span class="operator">=</span> <span class="number">1</span> &lt;&lt; <span class="number">4</span>; </span><br><span class="line"></span><br><span class="line"><span class="comment">//hashmap的最大容量 2的30次方</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">MAXIMUM_CAPACITY</span> <span class="operator">=</span> <span class="number">1</span> &lt;&lt; <span class="number">30</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//负载因数</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="type">float</span> <span class="variable">DEFAULT_LOAD_FACTOR</span> <span class="operator">=</span> <span class="number">0.75f</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//链表数量达到八开始向红黑树转换</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">TREEIFY_THRESHOLD</span> <span class="operator">=</span> <span class="number">8</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//当红黑树的节点少于6时，则转换为单链表存储</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">UNTREEIFY_THRESHOLD</span> <span class="operator">=</span> <span class="number">6</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//虽然在hash冲突发生的时候，默认使用单链表存储，当单链表节点个数大于8时，会转换为红黑树存储</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//但是有一个前提（很多文章都没说）：要求数组长度大于64，否则不会进行转换，而是进行扩容。</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">MIN_TREEIFY_CAPACITY</span> <span class="operator">=</span> <span class="number">64</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="最大容量为什么是不超过1"><a href="#最大容量为什么是不超过1" class="headerlink" title="最大容量为什么是不超过1&lt;&lt;30？"></a><strong>最大容量为什么是不超过1&lt;&lt;30？</strong></h4><p>int类型的数据所占空间大小为32位，所以如果超过这个范围之后，会<strong>出现溢出</strong>。所以，<strong>1&lt;&lt;30是在int类型取值范围中2次幂的最大值</strong>，即为HashMap的容量最大值。</p>
+<h4 id="为什么要将链表中转红黑树的阈值设为8？"><a href="#为什么要将链表中转红黑树的阈值设为8？" class="headerlink" title="为什么要将链表中转红黑树的阈值设为8？"></a><strong>为什么要将链表中转红黑树的阈值设为8？</strong></h4><p>HashMap不直接使用红黑树，<strong>是因为树节点所占空间是普通节点的两倍</strong>，所以只有当节点足够的时候，才会使用树节点。也就是说，尽管时间复杂度上，红黑树比链表好一点，但是红黑树所占的空间比较大，所以综合考虑之下，只有在链表节点数太多的时候，红黑树占空间大这一劣势不太明显的时候，才会舍弃链表，使用红黑树。</p>
+<p>所以说阈值设置为8是一个将内存和性能折中的一个方案</p>
+<h4 id="1-8和1-7的区别"><a href="#1-8和1-7的区别" class="headerlink" title="1.8和1.7的区别"></a>1.8和1.7的区别</h4><ol>
+<li>hashmap1.8之后，结构为 数组+链表+红黑树，而1.7只是数据+链表</li>
+</ol>
+<p><img src="https://gitee.com/flow_disaster/blog-map-bed/raw/master/img/image-20210429120122736.png" loading="lazy"></p>
+<ol start="2">
+<li><p>1.7扩容时需要重新计算哈希值和索引位置，1.8并不重新计算哈希值，巧妙地采用和扩容后容量进行&amp;操作来计算新的索引位置。</p>
+</li>
+<li><p>1.7插入元素到单链表中采用头插入法，1.8采用的是尾插入法。</p>
+</li>
+</ol>
+<blockquote>
+<p>解决hash冲突的方法：</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<ol>
+<li>开发定址法：所谓开放定址法，即是由关键码得到的哈希地址一旦产生了冲突，也就是说，该地址已经存放了数据元素，就去寻找下一个空的哈希地址，只要哈希表足够大，空的哈希地址总能找到，并将数据元素存入。</li>
+</ol>
+</blockquote>
+<blockquote>
+<ol start="2">
+<li>链地址法：hash值一样的key，会在这个数据后面新建一个链表，每次增加就直接在链表后面加节点即可</li>
+</ol>
+</blockquote>
+<h4 id="链表为什么用尾插法"><a href="#链表为什么用尾插法" class="headerlink" title="链表为什么用尾插法"></a>链表为什么用尾插法</h4><p>为了安全，因为头插法多线程情况下会导致链表成环</p>
+<blockquote>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cuYmlsaWJpbGkuY29tL3ZpZGVvL0JWMW41NDExNzdFYT9mcm9tPXNlYXJjaCZzZWlkPTMzOTgzODk1OTQwMjAzMTQxMzI=">链表成环视频讲解<i class="fa fa-external-link-alt"></i></span></p>
+</blockquote>
+<p>那么为什么到了1.8版本才进行修改那？</p>
+<p>其实是因为多线程下的hashmap本就不安全，在多线程场景下如果要使用map，也不会使用hashmap，因此等开发人员想到了，才进行修改</p>
+<h4 id="为什么扩容时两倍扩容"><a href="#为什么扩容时两倍扩容" class="headerlink" title="为什么扩容时两倍扩容"></a>为什么扩容时两倍扩容</h4><p><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0FwZW9wbC9hcnRpY2xlL2RldGFpbHMvODg5MzU0MjI=">文章<i class="fa fa-external-link-alt"></i></span></p>
+<p>主要是与扩容时候的额resize方法有关，resize方法中(n - 1) &amp; hash的计算方法有关</p>
+<p>其中n是集合的容量，hash是添加的元素进过hash函数计算出来的hash值。</p>
+<p>容量是2的n次幂，主要原因是可以使得添加的元素均匀分布在HashMap中的数组上，减少hash碰撞，避免形成链表的结构，使得查询效率降低！</p>
+<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><h4 id="hash"><a href="#hash" class="headerlink" title="hash"></a>hash</h4><h5 id="hashcode"><a href="#hashcode" class="headerlink" title="hashcode"></a>hashcode</h5><p>hashcode就是通过hash函数得来的，通俗的说，就是通过某一种算法得到的，hashcode就是在<strong>hash表中有对应的位置</strong>。</p>
+<p>通过对象的内部地址(也就是物理地址)转换成一个整数，然后该整数通过hash函数的算法就得到了hashcode(不同jvm的实现不同, hotspot的实现贴在了最后)，所以，hashcode是什么呢？就是在hash表中对应的位置。这里如果还不是很清楚的话，举个例子，hash表中有 hashcode为1、hashcode为2、(...)3、4、5、6、7、8这样八个位置，有一个对象A，A的物理地址转换为一个整数17(这是假如)，就通过直接取余算法，17%8&#x3D;1，那么A的hashcode就为1，且A就在hash表中1的位置。</p>
+<h6 id="为什么使用hashcode"><a href="#为什么使用hashcode" class="headerlink" title="为什么使用hashcode"></a>为什么使用hashcode</h6><p>很简单，因为hashcode快啊。</p>
+<p><strong>HashCode是用来在散列存储结构中确定对象的存储地址的</strong></p>
+<p>HashMap 之所以速度快，因为他使用的是散列表，<strong>根据 key 的 hashcode 值生成数组下标</strong>（通过内存地址直接查找，不需要判断, 但是需要多出很多内存，相当于<strong>以空间换时间</strong>）</p>
+<h5 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="title function_">hash</span><span class="params">(Object key)</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> h;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> (key == <span class="literal">null</span>) ? <span class="number">0</span> : (h = key.hashCode()) ^ (h &gt;&gt;&gt; <span class="number">16</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">native</span> <span class="type">int</span> <span class="title function_">hashCode</span><span class="params">()</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>h是调用c写的hashcode的方法获取到的哈希值</p>
+<p>h与h向右移动16位进行异或</p>
+<blockquote>
+<p>异或的规则是： 相同为0，不同为1</p>
+</blockquote>
+<h4 id="hashmap"><a href="#hashmap" class="headerlink" title="hashmap"></a>hashmap</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="title function_">HashMap</span><span class="params">(<span class="type">int</span> initialCapacity, <span class="type">float</span> loadFactor)</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (initialCapacity &lt; <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalArgumentException</span>(<span class="string">&quot;Illegal initial capacity: &quot;</span> +</span><br><span class="line"></span><br><span class="line">                                           initialCapacity);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (initialCapacity &gt; MAXIMUM_CAPACITY)</span><br><span class="line"></span><br><span class="line">        initialCapacity = MAXIMUM_CAPACITY;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (loadFactor &lt;= <span class="number">0</span> || Float.isNaN(loadFactor))</span><br><span class="line"></span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalArgumentException</span>(<span class="string">&quot;Illegal load factor: &quot;</span> +</span><br><span class="line"></span><br><span class="line">                                           loadFactor);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">this</span>.loadFactor = loadFactor;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">this</span>.threshold = tableSizeFor(initialCapacity);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> * Constructs an empty &lt;tt&gt;HashMap&lt;/tt&gt; with the specified initial</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> * capacity and the default load factor (0.75).</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span>  initialCapacity the initial capacity.</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@throws</span> IllegalArgumentException if the initial capacity is negative.</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="title function_">HashMap</span><span class="params">(<span class="type">int</span> initialCapacity)</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">this</span>(initialCapacity, DEFAULT_LOAD_FACTOR);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> * Constructs an empty &lt;tt&gt;HashMap&lt;/tt&gt; with the default initial capacity</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> * (16) and the default load factor (0.75).</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="title function_">HashMap</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">this</span>.loadFactor = DEFAULT_LOAD_FACTOR; <span class="comment">// all other fields defaulted</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>hashmap的构造方法，三种初始化hashmap的形式</p>
+<h4 id="resize"><a href="#resize" class="headerlink" title="resize"></a>resize</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">     * The next size value at which to resize (capacity * load factor).</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">     *下一个要调整大小的大小值（容量负载因子）</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">     * <span class="doctag">@serial</span></span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> threshold;</span><br><span class="line"></span><br><span class="line"><span class="keyword">final</span> Node&lt;K,V&gt;[] resize() &#123;</span><br><span class="line"></span><br><span class="line">    Node&lt;K,V&gt;[] oldTab = table;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="variable">oldCap</span> <span class="operator">=</span> (oldTab == <span class="literal">null</span>) ? <span class="number">0</span> : oldTab.length;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="variable">oldThr</span> <span class="operator">=</span> threshold;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> newCap, newThr = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//如果超过最大的容量则不允许扩容，直接返回原数组</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (oldCap &gt; <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (oldCap &gt;= MAXIMUM_CAPACITY) &#123;</span><br><span class="line"></span><br><span class="line">            threshold = Integer.MAX_VALUE;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> oldTab;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//如果hashmap数量的两倍小于2的32次方并且 大于等于16</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//那么新的hashmap的大小就是原来的两倍</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> ((newCap = oldCap &lt;&lt; <span class="number">1</span>) &lt; MAXIMUM_CAPACITY &amp;&amp;</span><br><span class="line"></span><br><span class="line">                 oldCap &gt;= DEFAULT_INITIAL_CAPACITY)</span><br><span class="line"></span><br><span class="line">            newThr = oldThr &lt;&lt; <span class="number">1</span>; <span class="comment">// double threshold</span></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (oldThr &gt; <span class="number">0</span>) <span class="comment">// initial capacity was placed in threshold</span></span><br><span class="line"></span><br><span class="line">        newCap = oldThr;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">else</span> &#123;               <span class="comment">// zero initial threshold signifies using defaults</span></span><br><span class="line"></span><br><span class="line">        newCap = DEFAULT_INITIAL_CAPACITY;</span><br><span class="line"></span><br><span class="line">        newThr = (<span class="type">int</span>)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (newThr == <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="type">float</span> <span class="variable">ft</span> <span class="operator">=</span> (<span class="type">float</span>)newCap * loadFactor;</span><br><span class="line"></span><br><span class="line">        newThr = (newCap &lt; MAXIMUM_CAPACITY &amp;&amp; ft &lt; (<span class="type">float</span>)MAXIMUM_CAPACITY ?</span><br><span class="line"></span><br><span class="line">                  (<span class="type">int</span>)ft : Integer.MAX_VALUE);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    threshold = newThr;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@SuppressWarnings(&#123;&quot;rawtypes&quot;,&quot;unchecked&quot;&#125;)</span></span><br><span class="line"></span><br><span class="line">    Node&lt;K,V&gt;[] newTab = (Node&lt;K,V&gt;[])<span class="keyword">new</span> <span class="title class_">Node</span>[newCap];</span><br><span class="line"></span><br><span class="line">    table = newTab;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (oldTab != <span class="literal">null</span>) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; oldCap; ++j) &#123;</span><br><span class="line"></span><br><span class="line">            Node&lt;K,V&gt; e;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> ((e = oldTab[j]) != <span class="literal">null</span>) &#123;</span><br><span class="line"></span><br><span class="line">                oldTab[j] = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">                <span class="comment">//判断e是不是最后一个节点</span></span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (e.next == <span class="literal">null</span>)</span><br><span class="line"></span><br><span class="line">                    <span class="comment">//重新hash之后放入对应的位置</span></span><br><span class="line"></span><br><span class="line">                    newTab[e.hash &amp; (newCap - <span class="number">1</span>)] = e;</span><br><span class="line"></span><br><span class="line">                <span class="comment">//判断这个节点是不是在红黑树中</span></span><br><span class="line"></span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span> (e <span class="keyword">instanceof</span> TreeNode)</span><br><span class="line"></span><br><span class="line">                    ((TreeNode&lt;K,V&gt;)e).split(<span class="built_in">this</span>, newTab, j, oldCap);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">else</span> &#123; </span><br><span class="line"></span><br><span class="line">                    Node&lt;K,V&gt; loHead = <span class="literal">null</span>, loTail = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">                    Node&lt;K,V&gt; hiHead = <span class="literal">null</span>, hiTail = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">                    Node&lt;K,V&gt; next;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">do</span> &#123;</span><br><span class="line"></span><br><span class="line">                        next = e.next;</span><br><span class="line"></span><br><span class="line">                        <span class="keyword">if</span> ((e.hash &amp; oldCap) == <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">                            <span class="keyword">if</span> (loTail == <span class="literal">null</span>)</span><br><span class="line"></span><br><span class="line">                                loHead = e;</span><br><span class="line"></span><br><span class="line">                            <span class="keyword">else</span></span><br><span class="line"></span><br><span class="line">                                loTail.next = e;</span><br><span class="line"></span><br><span class="line">                            loTail = e;</span><br><span class="line"></span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                        <span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">                            <span class="keyword">if</span> (hiTail == <span class="literal">null</span>)</span><br><span class="line"></span><br><span class="line">                                hiHead = e;</span><br><span class="line"></span><br><span class="line">                            <span class="keyword">else</span></span><br><span class="line"></span><br><span class="line">                                hiTail.next = e;</span><br><span class="line"></span><br><span class="line">                            hiTail = e;</span><br><span class="line"></span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                    &#125; <span class="keyword">while</span> ((e = next) != <span class="literal">null</span>);</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">if</span> (loTail != <span class="literal">null</span>) &#123;</span><br><span class="line"></span><br><span class="line">                        loTail.next = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">                        newTab[j] = loHead;</span><br><span class="line"></span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">if</span> (hiTail != <span class="literal">null</span>) &#123;</span><br><span class="line"></span><br><span class="line">                        hiTail.next = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">                        newTab[j + oldCap] = hiHead;</span><br><span class="line"></span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> newTab;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<ul>
+<li>hashmap的key只能有一个为null，value可以有多个null</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>HashTable中，无论是key还是value，都不能为null</li>
+</ul>
+</blockquote>
+<h4 id="put"><a href="#put" class="headerlink" title="put"></a>put</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> V <span class="title function_">put</span><span class="params">(K key, V value)</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> putVal(hash(key), key, value, <span class="literal">false</span>, <span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="putVal"><a href="#putVal" class="headerlink" title="putVal"></a>putVal</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">final</span> V <span class="title function_">putVal</span><span class="params">(<span class="type">int</span> hash, K key, V value, <span class="type">boolean</span> onlyIfAbsent,</span></span><br><span class="line"><span class="params"></span></span><br><span class="line"><span class="params">               <span class="type">boolean</span> evict)</span> &#123;</span><br><span class="line"></span><br><span class="line">    Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; p; <span class="type">int</span> n, i;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//如果table数组中没有值，就要初始化一个长度</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ((tab = table) == <span class="literal">null</span> || (n = tab.length) == <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">        n = (tab = resize()).length;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//如果数组的这个下标位置没有数据，就将这个数据插入进去</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ((p = tab[i = (n - <span class="number">1</span>) &amp; hash]) == <span class="literal">null</span>)</span><br><span class="line"></span><br><span class="line">        tab[i] = newNode(hash, key, value, <span class="literal">null</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">        Node&lt;K,V&gt; e; K k;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (p.hash == hash &amp;&amp;</span><br><span class="line"></span><br><span class="line">            ((k = p.key) == key || (key != <span class="literal">null</span> &amp;&amp; key.equals(k))))</span><br><span class="line"></span><br><span class="line">            e = p;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//如果检测到是树节点，就要使用下面这个方法来进行插入元素</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (p <span class="keyword">instanceof</span> TreeNode)</span><br><span class="line"></span><br><span class="line">            e = ((TreeNode&lt;K,V&gt;)p).putTreeVal(<span class="built_in">this</span>, tab, hash, key, value);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">binCount</span> <span class="operator">=</span> <span class="number">0</span>; ; ++binCount) &#123;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> ((e = p.next) == <span class="literal">null</span>) &#123;</span><br><span class="line"></span><br><span class="line">                    p.next = newNode(hash, key, value, <span class="literal">null</span>);</span><br><span class="line"></span><br><span class="line">                    <span class="comment">//如果链表的数量大于8，就转换为红黑树</span></span><br><span class="line"></span><br><span class="line">                    <span class="keyword">if</span> (binCount &gt;= TREEIFY_THRESHOLD - <span class="number">1</span>) <span class="comment">// -1 for 1st</span></span><br><span class="line"></span><br><span class="line">                        treeifyBin(tab, hash);</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (e.hash == hash &amp;&amp;</span><br><span class="line"></span><br><span class="line">                    ((k = e.key) == key || (key != <span class="literal">null</span> &amp;&amp; key.equals(k))))</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">                p = e;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (e != <span class="literal">null</span>) &#123; <span class="comment">// existing mapping for key</span></span><br><span class="line"></span><br><span class="line">            <span class="type">V</span> <span class="variable">oldValue</span> <span class="operator">=</span> e.value;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (!onlyIfAbsent || oldValue == <span class="literal">null</span>)</span><br><span class="line"></span><br><span class="line">                e.value = value;</span><br><span class="line"></span><br><span class="line">            afterNodeAccess(e);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> oldValue;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//记录修改的次数</span></span><br><span class="line"></span><br><span class="line">    ++modCount;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (++size &gt; threshold)</span><br><span class="line"></span><br><span class="line">        resize();</span><br><span class="line"></span><br><span class="line">    afterNodeInsertion(evict);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="treeifyBin"><a href="#treeifyBin" class="headerlink" title="treeifyBin"></a>treeifyBin</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title function_">treeifyBin</span><span class="params">(Node&lt;K,V&gt;[] tab, <span class="type">int</span> hash)</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> n, index; Node&lt;K,V&gt; e;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//虽然上面判断链表长度大于8,到了操作树的环节，但是还是判断数据长度大于64才可以将</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//链表转换为红黑树</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (tab == <span class="literal">null</span> || (n = tab.length) &lt; MIN_TREEIFY_CAPACITY)</span><br><span class="line"></span><br><span class="line">        resize();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> ((e = tab[index = (n - <span class="number">1</span>) &amp; hash]) != <span class="literal">null</span>) &#123;</span><br><span class="line"></span><br><span class="line">        TreeNode&lt;K,V&gt; hd = <span class="literal">null</span>, tl = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">do</span> &#123;</span><br><span class="line"></span><br><span class="line">            TreeNode&lt;K,V&gt; p = replacementTreeNode(e, <span class="literal">null</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (tl == <span class="literal">null</span>)</span><br><span class="line"></span><br><span class="line">                hd = p;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">                p.prev = tl;</span><br><span class="line"></span><br><span class="line">                tl.next = p;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            tl = p;</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">while</span> ((e = e.next) != <span class="literal">null</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> ((tab[index] = hd) != <span class="literal">null</span>)</span><br><span class="line"></span><br><span class="line">            hd.treeify(tab);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h3><h4 id="方式"><a href="#方式" class="headerlink" title="方式"></a>方式</h4><h5 id="lambda"><a href="#lambda" class="headerlink" title="lambda"></a>lambda</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;Integer, Integer&gt;();</span><br><span class="line"></span><br><span class="line">map.put(<span class="number">2</span>, <span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">map.put(<span class="number">1</span>, <span class="number">20</span>);</span><br><span class="line"></span><br><span class="line">map.put(<span class="number">4</span>,<span class="number">40</span>);</span><br><span class="line"></span><br><span class="line">map.put(<span class="number">3</span>,<span class="number">30</span>);</span><br><span class="line"></span><br><span class="line">map.forEach((k, v) -&gt; System.out.println(<span class="string">&quot;key: &quot;</span> + k + <span class="string">&quot; value:&quot;</span> + v));</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="for-each"><a href="#for-each" class="headerlink" title="for each"></a>for each</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">for</span> (Map.Entry&lt;Integer, Integer&gt; entry : map.entrySet()) &#123;</span><br><span class="line"></span><br><span class="line">			System.out.println(<span class="string">&quot;Key = &quot;</span> + entry.getKey() + <span class="string">&quot;, Value = &quot;</span> + entry.getValue());</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="迭代键值对"><a href="#迭代键值对" class="headerlink" title="迭代键值对"></a>迭代键值对</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 迭代键</span></span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> (Integer key : map.keySet()) &#123;</span><br><span class="line"></span><br><span class="line">			System.out.println(<span class="string">&quot;Key = &quot;</span> + key);</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">		<span class="comment">// 迭代值</span></span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> (Integer value : map.values()) &#123;</span><br><span class="line"></span><br><span class="line">			System.out.println(<span class="string">&quot;Value = &quot;</span> + value);</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="Iterator"><a href="#Iterator" class="headerlink" title="Iterator"></a>Iterator</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Iterator&lt;Map.Entry&lt;Integer, Integer&gt;&gt; entries = map.entrySet().iterator();</span><br><span class="line"></span><br><span class="line">		<span class="keyword">while</span> (entries.hasNext()) &#123;</span><br><span class="line"></span><br><span class="line">			Map.Entry&lt;Integer, Integer&gt; entry = entries.next();</span><br><span class="line"></span><br><span class="line">			System.out.println(<span class="string">&quot;Key = &quot;</span> + entry.getKey() + <span class="string">&quot;, Value = &quot;</span> + entry.getValue());</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>虽然hashmap的插入数据是无序的，但是它遍历出来的结果都是有序的,并且每次遍历的结果都一样</p>
+<blockquote>
+<p>原因就是因为hashmap的数组下标是 hashcode和hashmap的容量大小  按位与出来的结果</p>
+</blockquote>
+<h3 id="线程安全"><a href="#线程安全" class="headerlink" title="线程安全"></a>线程安全</h3><p>hashmap是线程不安全的，如果需要保证线程安全，推荐使用ConcurrentHashMap</p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><span class="exturl" data-url="aHR0cHM6Ly90ZWNoLm1laXR1YW4uY29tLzIwMTYvMDYvMjQvamF2YS1oYXNobWFwLmh0bWw=">美团技术文章<i class="fa fa-external-link-alt"></i></span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly96aHVhbmxhbi56aGlodS5jb20vcC8xMzAyMDk5MTg=">知乎文章<i class="fa fa-external-link-alt"></i></span></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%97%A0%E6%A0%87%E7%AD%BE/" rel="tag"># 无标签</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/856c8506/" rel="prev" title="java_String">
+                  <i class="fa fa-angle-left"></i> java_String
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/f89cb603/" rel="next" title="红黑树">
+                  红黑树 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2014 – 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">NexT</span>
+  </div>
+  <div class="powered-by">Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl" data-url="aHR0cHM6Ly90aGVtZS1uZXh0LmpzLm9yZw==">NexT.Gemini</span>
+  </div><div class="footer-custom">
+Website source code <span class="exturl theme-link" data-url="aHR0cHM6Ly9naXRodWIuY29tL2hleG8tbmV4dC9oZXhvLW5leHQuZ2l0aHViLmlv">here</span>
+</div>
+
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <span class="exturl github-corner" data-url="aHR0cHM6Ly9naXRodWIuY29tL25leHQtdGhlbWUvaGV4by10aGVtZS1uZXh0" title="Follow me on GitHub" aria-label="Follow me on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></span>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.22.0/comments.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.22.0/utils.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.22.0/motion.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.22.0/sidebar.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.22.0/next-boot.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.22.0/pjax.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.22.0/third-party/search/local-search.min.js"></script>
+
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.min.js","integrity":"sha256-G8ouPAnw4zzMbnAenHnVz6h9XpKbNdOkrqTh7AadyHs="}}</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.22.0/third-party/tags/mermaid.min.js"></script>
+
+  <script class="next-config" data-name="wavedrom" type="application/json">{"enable":true,"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/wavedrom/3.5.0/wavedrom.min.js","integrity":"sha256-INLAoJc6quTNfiMWkGZniYO2cxE8mHpddnLow1m6RFs="}}</script>
+  <script class="next-config" data-name="wavedrom_skin" type="application/json">{"enable":true,"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/wavedrom/3.5.0/skins/default.js","integrity":"sha256-fduc/Zszk5ezWws2uInY/ALWVmIrmV6VTgXbsYSReFI="}}</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.22.0/third-party/tags/wavedrom.min.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.22.0/third-party/math/mathjax.min.js"></script>
+
+
+
+</body>
+</html>
