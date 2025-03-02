@@ -93,7 +93,7 @@ marked:
 
 auto_excerpt:
   enable: true
-  length: 200 # 可以根据需要设置自动截断的字数
+  length: 50 # 可以根据需要设置自动截断的字数
 
 # 搜索
 search:
