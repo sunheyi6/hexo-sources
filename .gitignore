@@ -2,7 +2,7 @@
 node_modules/
 
 # 忽略编译输出目录
-/public
+public/
 
 # 忽略临时文件和缓存
 *.swp
