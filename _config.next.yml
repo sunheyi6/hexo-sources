@@ -45,8 +45,8 @@ menu:
   标签: /tags/ || fa  fa-tags 
   文章: /archives/ || fa  fa-archive
   关于: /about/ || fa fa-user
-  友链: /links/ || fa fa-link
-  留言: /message/ || fa fa-envelope
+  # 友链: /links/ || fa fa-link
+  # 留言: /message/ || fa fa-envelope
   # Docs:
   #   default: /docs/ || fa fa-book
 

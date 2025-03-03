@@ -1,7 +1,11 @@
 ---
 layout: page
-title: about
+title: 关于我
 date: 2025-03-02 16:35:27
 tags:
 type: "about"
 ---
+## 关于我
+- 我是一名程序员，喜欢编程，喜欢折腾，喜欢分享。
+- 我是2020年计算机毕业的。主要是java后端开发。
+

@@ -43,26 +43,17 @@ render_drafts: false
 post_asset_folder: false
 relative_link: false
 future: true
-syntax_highlighter: highlight.js
 highlight:
   auto_detect: true
   line_number: true
   line_threshold: 0
   tab_replace: ""
-  theme: 
-  wrap: true
-  hljs: true
-prismjs:
-  preprocess: true
-  line_number: true
-  line_threshold: 0
-  tab_replace: ""
-  theme: default
+  style: solarized-dark
 
 # Home page setting
 index_generator:
   per_page: 6
-  order_by: -updated,-date
+  order_by: -date
 # Category & Tag
 default_category: uncategorized
 category_map:
