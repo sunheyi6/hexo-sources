@@ -169,7 +169,7 @@ symbols_count_time:
   item_text_total: true
 
 post_edit:
-  enable: true
+  enable: false
   url: https://github.com/next-theme/theme-next-docs/edit/master/source/
 
 
@@ -210,7 +210,7 @@ font:
 
 index_with_subtitle: true
 
-exturl: true
+exturl: false
 
 google_site_verification: 5AUIVYTbHIAuz-eQtxSfZbWW5eg9_EVZMSQycIuXrG0
 
