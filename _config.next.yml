@@ -123,7 +123,9 @@ avatar:
   rounded: true
 
 social:
+  Twitter: https://twitter.com/sun76790508 || fa fa-twitter
   GitHub: https://github.com/sunheyi6 || fab fa-github
+  Email: shyyouarebest@gmail.com || fa fa-envelope
   RSS: /atom.xml || fa fa-rss
 
 social_icons:
