@@ -106,3 +106,15 @@ waline:
   comment_count: true # 如果为 false , 评论数量只会在当前评论页面显示, 主页则不显示
   requiredFields: [] # 设置用户评论时必填的信息，[nick,mail]: [nick] | [nick, mail]
   libUrl: # Set custom library cdn url
+
+feed:
+  type: atom
+  path: atom.xml
+  limit: 20
+  hub:
+  content:
+  content_limit: 140
+  content_limit_delim: ' '
+  order_by: -date
+  icon: icon.png
+  autodiscovery: true
