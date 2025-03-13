@@ -82,9 +82,6 @@ marked:
   lazyload: true
 
 
-auto_excerpt:
-  enable: true
-  length: 50 # 可以根据需要设置自动截断的字数
 
 # 搜索
 search:
@@ -112,9 +109,9 @@ feed:
   path: atom.xml
   limit: 20
   hub:
-  content:
+  content: true
   content_limit: 140
-  content_limit_delim: ' '
+  content_limit_delim: <!-- more -->
   order_by: -date
   icon: icon.png
   autodiscovery: true
