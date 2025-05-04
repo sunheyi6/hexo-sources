@@ -83,3 +83,10 @@ sudo npm install -g hexo-cli
 sudo systemctl start bluetooth
 sudo systemctl enable bluetooth
 ```
+### git
+```bash
+sudo pacman -S git
+git config --global user.name "sunheyi"
+git config --global user.email "1061867552@qq.com"
+```
+
