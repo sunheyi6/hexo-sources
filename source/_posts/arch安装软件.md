@@ -50,13 +50,14 @@ EOF
 ```bash
 source ~/.xprofile
 ```
-### clash
+### 常用软件
 ```bash
 paru -S clash-verge-rev-bin
 paru -S wps-office
 paru -S visual-studio-code-bin
 paru -S intellij-idea-ultimate-edition
 paru -S google-chrome
+paru -S qqmusic-bin
  ```
 ### 微信
 ```bash
@@ -78,7 +79,7 @@ paru -S wechat-universal-bwrap
 sudo pacman -S nodejs npm
 sudo npm install -g hexo-cli
 ```
-### 开启蓝牙
+### 蓝牙
 ```bash
 sudo systemctl start bluetooth
 sudo systemctl enable bluetooth
