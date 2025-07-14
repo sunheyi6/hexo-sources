@@ -181,8 +181,8 @@ mobile_layout_economy: true
 
 codeblock:
   theme:
-    light: default
-    dark: stackoverflow-dark
+    light: obsidian
+    dark: obsidian
   copy_button:
     enable: true
     style: default

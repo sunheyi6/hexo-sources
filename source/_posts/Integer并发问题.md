@@ -1,8 +1,9 @@
 ---
 title: Integer并发问题
-date: 2025-07-14 14:11:30
 tags: 并发问题
 categories: 技术
+abbrlink: 17faa988
+date: 2025-07-14 14:11:30
 description:
 ---
 最近在面试中遇到了一个 Integer 并发问题，记录一下。

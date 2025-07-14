@@ -1,5 +1,6 @@
 ---
 title: 常用的lazyvim命令
+abbrlink: aee831b6
 date: 2025-05-12 09:54:16
 tags:
 categories:

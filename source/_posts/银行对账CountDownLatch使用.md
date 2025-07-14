@@ -1,5 +1,6 @@
 ---
 title: 银行对账CountDownLatch使用
+abbrlink: 5c822ad4
 date: 2025-07-10 11:03:44
 tags:
 categories:

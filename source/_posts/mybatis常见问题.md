@@ -1,5 +1,6 @@
 ---
 title: mybatis常见问题
+abbrlink: b2f6b667
 date: 2022-06-22 08:53:05
 tags:
 categories:
