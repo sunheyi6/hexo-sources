@@ -29,80 +29,44 @@ description:
 1. 将b类mock一下
 2. when(b.method).then(returnValue);
 ### 静态方法
+> 如果是静态方法的mock,需要使用mockito-inline
 ```java
-package com.example.springbootdemo.demos.demo;
+Mockito.mockStatic(StaticDemo.class);
+when(StaticDemo.staticMethod()).thenReturn("mocked static method");
+```
+#### 链式调用
+```java
+//示例方法
+Stirng name=StaticDemo.getUser.getUuserName();
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
-
-import java.io.PrintStream;
-
-import static org.mockito.Mockito.*;
-
-/**
- * DemoServiceImpl类的单元测试
- */
-class DemoServiceImplTest {
-
-    // 被测对象
-    private DemoServiceImpl demoService;
-
-    // 用于mock静态方法
-    private MockedStatic<StaticDemo> mockedStatic;
-
-    @BeforeEach
-    void setUp() {
-        // 初始化被测对象
-        demoService = new DemoServiceImpl();
-        // 开始mock StaticDemo类的静态方法
-        mockedStatic = Mockito.mockStatic(StaticDemo.class);
-    }
-
-    @AfterEach
-    void tearDown() {
-        // 清理mock对象，防止影响其他测试用例
-        mockedStatic.close();
-    }
-
-    /**
-     * 测试demoTest方法的基本逻辑
-     * 验证StaticDemo.test方法被正确调用，并且返回值被打印
-     */
-    @Test
-    void demoTest() {
-        // 准备测试数据
-        String input = "demoTest";
-        String expectedOutput = "11";
-
-        // Mock静态方法的行为
-        mockedStatic.when(() -> StaticDemo.test(input)).thenReturn(expectedOutput);
-
-        // Mock System.out以验证打印行为（可选）
-        PrintStream mockPrintStream = mock(PrintStream.class);
-        PrintStream originalPrintStream = System.out;
-        System.setOut(mockPrintStream);
-
-        try {
-            // 执行被测方法
-            demoService.demoTest();
-
-            // 验证StaticDemo.test方法被调用了一次，并且参数正确
-            mockedStatic.verify(() -> StaticDemo.test(input), times(1));
-
-            // 验证System.out.println被调用了一次，并且参数正确
-            verify(mockPrintStream, times(1)).println(expectedOutput);
-        } finally {
-            // 恢复原始的System.out
-            System.setOut(originalPrintStream);
-        }
-    }
+//单元测试
+Mockito.mockStatic(StaticDemo.class);
+StaticDemo staticDemo=mock(StaticDemo.class);
+when(StaticDemo.staticMethod()).thenReturn(staticDemo);
+when(staticDemo.getUuserName()).thenReturn("userName");
+```
+### 多次调用
+在同一个类中多次mock调用同一个类，调用同一个静态方法的情况，需要每次mock的时候，都去释放掉这个资源
+> mockStatic这个方法一定要给变量名字，否则无法自动释放，当然也会直接报错，如果有多个调用直接分号隔开，加在后面即可
+```java
+try (MockedStatic<StaticDemo> mockedStatic = Mockito.mockStatic(StaticDemo.class);
+MockedStatic<StaticDemo1> mockedStatic = Mockito.mockStatic(StaticDemo1.class)) {
+when(StaticDemo.staticMethod()).thenReturn("mocked static method");
+when(StaticDemo1.staticMethod()).thenReturn("mocked static method 1");
 }
 ```
 ### @value
 ### final变量
+### 异常
+```java
+//junit4
+@Test(expected = 异常类.class)
+//junit5
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> calculator.divide(10, 0)
+    );
+```
 ### 调用同一个类中的一个方法
 推荐使用spy来mock部分方法,被测方法
 ```java
