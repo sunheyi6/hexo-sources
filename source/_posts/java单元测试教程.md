@@ -10,18 +10,19 @@ description:
 
 ## 依赖
 ```xml
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
+<dependency>
+    <groupId>org.mockito</groupId>
+    <artifactId>mockito-core</artifactId>
+    <version>5.18.0</version>
+    <scope>test</scope>
+</dependency>
 		<!--静态方法用这个-->
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-inline</artifactId>
-            <version>4.0.0</version>
-            <scope>test</scope>
-        </dependency>
+<dependency>
+    <groupId>org.mockito</groupId>
+    <artifactId>mockito-inline</artifactId>
+    <version>5.2.0</version>
+    <scope>test</scope>
+</dependency>
 ```
 ## 常见的几种情况
 ### 其他服务
@@ -56,7 +57,34 @@ when(StaticDemo1.staticMethod()).thenReturn("mocked static method 1");
 }
 ```
 ### @value
-### final变量
+```java
+import org.junit.jupiter.api.Test;
+import java.lang.reflect.Field;
+import static org.junit.jupiter.api.Assertions.*;
+
+class MyServiceTest {
+
+    @Test
+    void testGetGreeting_WithReflection() throws Exception {
+        // 1. 创建被测试对象
+        MyService myService = new MyService();
+
+        // 2. 使用反射，强行设置私有字段 appName 的值
+        Field field = MyService.class.getDeclaredField("appName");
+        field.setAccessible(true); // 允许访问私有字段
+        field.set(myService, "MyApp"); // 手动赋值
+
+        // 3. 调用方法并断言
+        String greeting = myService.getGreeting();
+        assertEquals("Hello, MyApp", greeting);
+    }
+}
+```
+### final
+	
+使用 mock(MyClass.class)然后对 final 方法 stub
+
+✅ 必须引入 mockito-inline
 ### 异常
 ```java
 //junit4
