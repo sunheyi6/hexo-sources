@@ -46,7 +46,7 @@ StaticDemo staticDemo=mock(StaticDemo.class);
 when(StaticDemo.staticMethod()).thenReturn(staticDemo);
 when(staticDemo.getUuserName()).thenReturn("userName");
 ```
-### 多次调用
+#### 多次调用
 在同一个类中多次mock调用同一个类，调用同一个静态方法的情况，需要每次mock的时候，都去释放掉这个资源
 > mockStatic这个方法一定要给变量名字，否则无法自动释放，当然也会直接报错，如果有多个调用直接分号隔开，加在后面即可
 ```java
