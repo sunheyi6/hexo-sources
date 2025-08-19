@@ -70,25 +70,10 @@ when(StaticDemo1.staticMethod()).thenReturn("mocked static method 1");
 ### 调用同一个类中的一个方法
 推荐使用spy来mock部分方法,被测方法
 ```java
-public class Calculator {
-
-    public int add(int a, int b) {
-        return a + b;
-    }
-
-    public int addThenDouble(int a, int b) {
-        int sum = add(a, b); // 调用了同一类的 add 方法
-        return sum * 2;
-    }
-}
-```
-单元测试
-```java
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
-
 public class CalculatorTest {
+    @spy//如果你要调用被测试类的一个方法，可以直接这么使用
+    @injectMock
+    private Calculator calculator;
 
     @Test
     public void testAddThenDoubleWithSpy() {
@@ -96,6 +81,7 @@ public class CalculatorTest {
         Calculator calculator = spy(new Calculator());
 
         // 假设我们想 mock 内部调用的 add 方法，让它返回固定值 100，而不是真实计算
+        //当你想实际去调用的时候,不用spy的时候并且不用when就可以了
         when(calculator.add(anyInt(), anyInt())).thenReturn(100);
 
         int result = calculator.addThenDouble(2, 3); // 原本应该算 2+3=5，然后 5 * 2=10
