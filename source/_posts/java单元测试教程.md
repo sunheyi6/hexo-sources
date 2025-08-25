@@ -118,4 +118,21 @@ public class CalculatorTest {
     }
 }
 ```
+### void
+```java
+    @Test
+    public void testNotify_WithValidMessage_ShouldCallVoidMethodAndReturnOk() {
+        // 准备
+        String message = "Hello, Mockito！";
 
+        // 调用 Controller 方法
+        var response = myController.notify(message);
+
+        // 验证返回值
+        assertEquals(200, response.getStatusCodeValue());
+        assertEquals("通知已发送", response.getBody());
+
+        // ✅ 验证：void 方法是否被调用了一次，且参数正确
+        verify(notificationService, times(1)).sendNotification(message);
+    }
+```
