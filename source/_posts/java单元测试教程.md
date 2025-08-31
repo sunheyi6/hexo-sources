@@ -1,5 +1,6 @@
 ---
 title: java单元测试教程
+abbrlink: e77a6fa5
 date: 2025-08-11 09:21:45
 tags:
 categories:

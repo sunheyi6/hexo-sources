@@ -1,8 +1,9 @@
 ---
 title: CompletableFuture使用
+categories: 技术
+abbrlink: af0b9658
 date: 2025-07-20 14:57:41
 tags:
-categories: 技术
 description:
 ---
 前几天有个群友突然问了这个问题，我一看发现，我竟然没有了解过，于是来了解一下

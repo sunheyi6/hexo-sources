@@ -1,8 +1,9 @@
 ---
 title: idea打开安全模式
-date: 2025-07-15 19:52:52
 tags: idea
 categories: 技术
+abbrlink: 8683901e
+date: 2025-07-15 19:52:52
 description:
 ---
 最近装了一个sonar的插件，结果idea直接崩溃了
