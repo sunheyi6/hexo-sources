@@ -1,0 +1,30 @@
+name: Build Hexo Site
+
+on:
+  push:
+    branches:
+      - master # 或你常用的分支，比如 master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'  # 根据你的要求设置 Node 版本
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Clean and Generate Hexo Site
+        run: |
+          npx hexo clean
+          npx hexo generate
