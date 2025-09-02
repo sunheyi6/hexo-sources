@@ -8,9 +8,9 @@ categories:
 - 技术
 description:
 ---
-
-<!-- more -->
 记录下rabbitmq windows安装以及实际使用问题
+<!-- more -->
+
 ## 安装
 1. [rabbitmq](https://www.rabbitmq.com/docs/download) 直接下载
 2. 到安装的sbin目录下启用控制台
