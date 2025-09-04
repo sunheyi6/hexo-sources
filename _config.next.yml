@@ -20,7 +20,7 @@ custom_file_path:
 #scheme: Muse
 #scheme: Mist
 #scheme: Pisces
-scheme: Gemini
+scheme: Mist
 
 darkmode: true
 
@@ -114,9 +114,10 @@ menu_settings:
 
 sidebar:
   position: left
-  display: post
+  display: false
   padding: 18
   offset: 12
+  auto_expand: false
 
 avatar:
   url: /images/avatar.jpg
@@ -270,8 +271,8 @@ disqus:
 # ================= Statistics and Analytics ================== #
 # ============================================================= #
 
-google_analytics:
-  tracking_id: G-MZXCQSZ8FT
+#google_analytics:
+  #tracking_id: G-MZXCQSZ8FT
 
 
 # ============================================================= #
