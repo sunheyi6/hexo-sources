@@ -137,3 +137,14 @@ public class CalculatorTest {
         verify(notificationService, times(1)).sendNotification(message);
     }
 ```
+## 常见问题
+1. mock出来的对象不正常，是个null
+	> 这说明你mock的方式不对，mock这个方法的时候，是需要参数类型严格对账，比如入参是一个String类型的，你不能直接any(),你要anyString(),
+	> 比如类型是JsonObject类型的，你不能直接any(),你要any(JsonObject.class)
+2. static类型的方法mockito是可以mock的，只是需要mockito-inline
+3. mockito的doReturn()和when()的区别,一般来说大部分场景使用when足够了，但是某些场景，比如一个类里面的方法a调用方法b，就需要用到doReturn了
+	> - when(...).thenReturn(...)：适合“外部依赖” + “mock 对象”
+	> - doReturn(...).when(...)：适合“内部方法” + “spy 对象” + “避免副作用”
+4. 想要覆盖抛出异常的类的话，还是要使用dotthrow或者when thenThrow 甚至是直接使用异常 在测试类中try catch
+5. @RunWith(MockitoJUnitRunner.class) 和MockitoAnnotations.initMocks(this)一个意思，不需要重复调用
+6. any你甚至可以any(Class.class)
