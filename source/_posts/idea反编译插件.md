@@ -1,9 +1,10 @@
 ---
 title: idea反编译插件
+categories:
+  - 技术
+abbrlink: ef76d971
 date: 2025-09-20 07:48:39
 tags:
-categories:
-- 技术
 description:
 ---
 最近又又又遇到反编译的问题，还是来总结一下把

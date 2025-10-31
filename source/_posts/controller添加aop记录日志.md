@@ -1,9 +1,10 @@
 ---
 title: controller添加aop记录日志
+categories:
+  - 技术
+abbrlink: dd42d340
 date: 2025-09-08 09:55:29
 tags:
-categories:
-- 技术
 description:
 ---
 controller添加aop记录日志
