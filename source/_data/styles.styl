@@ -37,47 +37,169 @@
   }
 }
 
+// 纸质书风格
+:root {
+  --paper-color: #faf8f5;
+  --paper-light: #f5f3f0;
+  --paper-dark: #f0ede8;
+}
+
+// 纸质书背景
 body {
-    //background:url(/images/back3.png) !important;
+    background: linear-gradient(135deg, var(--paper-color) 0%, var(--paper-light) 50%, var(--paper-dark) 100%) !important;
+    background-attachment: fixed !important;
     background-repeat: no-repeat !important;
-    background-attachment:fixed !important; //不重复
-    background-size: cover !important;      //填充
-    background-position:50% 50% !important;
+    background-size: cover !important;
+    background-position: 50% 50% !important;
     font-size: 18px;
-}
-.post-body{
-      font-family: '仓耳渔阳体W03';
-}
-@font-face {
-    font-family: '仓耳渔阳体W03'; /* 自定义字体名称，后续使用该名称引用字体 */
-    src: url('/fonts/仓耳渔阳体W03.ttf') format('truetype'); /* 字体文件路径，根据实际情况修改 */
-    font-weight: normal;
-    font-style: normal;
+    // 纸质纹理效果
+    position: relative;
+    
+    &:before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(0, 0, 0, 0.005) 2px,
+          rgba(0, 0, 0, 0.005) 4px
+        );
+      pointer-events: none;
+      z-index: 0;
+    }
 }
 
-//博客内容透明化
-//文章内容的透明度设置
+// 文章内容纸质效果
 .post-block {
-  opacity: 0.9;
+  background: rgba(255, 255, 255, 0.85) !important;
+  opacity: 1;
+  position: relative;
+  
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.008) 2px,
+        rgba(0, 0, 0, 0.008) 4px
+      );
+    pointer-events: none;
+    z-index: 0;
+  }
 }
 
-//侧边框的透明度设置
+// 侧边栏纸质效果
 .sidebar {
-  opacity: 0.9;
+  background: rgba(255, 255, 255, 0.85) !important;
+  opacity: 1;
+  position: relative;
+  
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.008) 2px,
+        rgba(0, 0, 0, 0.008) 4px
+      );
+    pointer-events: none;
+    z-index: 0;
+  }
 }
 
-//菜单栏的透明度设置
+// 头部纸质效果
 .header-inner {
-  background: rgba(255,255,255,0.9);
+  background: rgba(255, 255, 255, 0.9) !important;
+  position: relative;
+  
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.008) 2px,
+        rgba(0, 0, 0, 0.008) 4px
+      );
+    pointer-events: none;
+    z-index: 0;
+  }
 }
 
-//搜索框（local-search）的透明度设置
+// 搜索框纸质效果
 .popup {
-  opacity: 0.9;
+  background: rgba(255, 255, 255, 0.9) !important;
+  opacity: 1;
 }
 
+// 性能优化
+// 减少动画和过渡效果
+* {
+  transition: none !important;
+  animation: none !important;
+  transition-duration: 0s !important;
+}
+
+// 优化图片加载
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+// 保持原有字体设置
+.post-body{
+  font-family: '仓耳渔阳体W03';
+}
+
+@font-face {
+  font-family: '仓耳渔阳体W03';
+  src: url('/fonts/仓耳渔阳体W03.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap; // 字体加载优化
+}
+
+// 保持原有布局
 .main-inner {
-    width: 80%;
-    padding-bottom: 0px;
-    margin: 0px auto;
+  width: 80%;
+  padding-bottom: 0px;
+  margin: 0px auto;
+  position: relative;
+  z-index: 1;
+}
+
+// 确保内容层级
+.container,
+.header-inner,
+.sidebar,
+.post-block {
+  position: relative;
+  z-index: 1;
 }
