@@ -44,6 +44,7 @@ menu:
   文章: /archives/ || fa fa-archive
   分类: /categories/ || fa fa-th
   标签: /tags/ || fa fa-tags
+  碎碎念: /notes/ || fa fa-comment
   关于: /about/ || fa fa-user
 
 menu_settings:

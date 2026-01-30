@@ -28,6 +28,7 @@ skip_render:
   - robots.txt
   - animate/*
   - highlight/*
+  - _data/memos.json
 
 
 # Writing
