@@ -7,8 +7,7 @@
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "server": "hexo server",
-    "sync": "node scripts/sync-memos.js",
-    "sync-cron": "node scripts/sync-memos-cron.js"
+    "sync": "node scripts/sync-memos.js"
   },
   "hexo": {
     "version": "6.3.0"
@@ -28,7 +27,6 @@
     "hexo-renderer-stylus": "^2.1.0",
     "hexo-server": "^3.0.0",
     "hexo-theme-landscape": "^1.0.0",
-    "node-cron": "^4.2.1",
     "node-fetch": "^3.3.2"
   }
 }
