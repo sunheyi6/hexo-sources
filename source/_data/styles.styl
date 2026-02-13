@@ -322,3 +322,210 @@ code {
   border-radius: 4px;
   color: #dc3545;
 }
+
+// ==================== Archives 页面样式优化 - 现代简洁风格 ====================
+
+.posts-collapse {
+  // 移除默认时间线
+  .post-content::before {
+    display: none;
+  }
+
+  // 统计标题 - 简洁风格
+  .collection-title {
+    text-align: center;
+    margin-bottom: 60px;
+    padding: 40px 0;
+    border-bottom: 1px solid #eee;
+    
+    .collection-header {
+      font-size: 14px;
+      color: #999;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 400;
+      
+      &::before {
+        display: none;
+      }
+    }
+  }
+
+  // 年份标题 - 大字号极简风格
+  .collection-year {
+    margin: 10px 0 5px 0;
+    position: relative;
+    text-align: center;
+    
+    &:first-of-type {
+      margin-top: 5px;
+    }
+    
+    .collection-header {
+      font-size: 48px;
+      font-weight: 200;
+      color: #ddd;
+      letter-spacing: 4px;
+      display: inline-block;
+      position: relative;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      
+      // 底部装饰线
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 40px;
+        height: 1px;
+        background: linear-gradient(to right, transparent, #ccc, transparent);
+      }
+    }
+    
+    &::before {
+      display: none;
+    }
+  }
+
+  // 文章列表 - 卡片式布局
+  .post-item {
+    margin-bottom: 0;
+    position: relative;
+  }
+
+  // 文章头部 - 简洁列表风格
+  .post-header {
+    display: flex;
+    align-items: baseline;
+    padding: 20px 0;
+    margin: 0;
+    border-bottom: 1px solid #f5f5f5;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    
+    // 悬停指示条
+    &::before {
+      content: '';
+      position: absolute;
+      left: -20px;
+      top: 50%;
+      transform: translateY(-50%) scaleY(0);
+      width: 3px;
+      height: 20px;
+      background: #333;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 2px;
+    }
+    
+    // 时间 - 左侧固定宽度
+    time {
+      font-size: 13px;
+      color: #bbb;
+      font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+      min-width: 100px;
+      flex-shrink: 0;
+      font-weight: 400;
+      letter-spacing: 0.5px;
+    }
+    
+    // 标题容器
+    > .post-content {
+      flex: 1;
+      margin: 0;
+      padding: 0 20px;
+      
+      .post-title-link {
+        font-size: 16px;
+        color: #444;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline;
+        line-height: 1.6;
+        font-weight: 400;
+        
+        &:hover {
+          color: #000;
+        }
+        
+        // 外部链接图标
+        .fa-external-link-alt {
+          font-size: 11px;
+          margin-left: 8px;
+          color: #ccc;
+          transition: color 0.3s ease;
+        }
+      }
+    }
+    
+    // 悬停效果
+    &:hover {
+      background: transparent;
+      border-bottom-color: #eee;
+      
+      &::before {
+        transform: translateY(-50%) scaleY(1);
+      }
+      
+      time {
+        color: #666;
+      }
+      
+      .post-title-link {
+        color: #000;
+        
+        .fa-external-link-alt {
+          color: #999;
+        }
+      }
+    }
+  }
+}
+
+// 响应式优化
+@media (max-width: 767px) {
+  .posts-collapse {
+    .collection-title {
+      margin-bottom: 40px;
+      padding: 30px 0;
+      
+      .collection-header {
+        font-size: 12px;
+      }
+    }
+    
+    .collection-year {
+      margin: 50px 0 30px 0;
+      
+      .collection-header {
+        font-size: 36px;
+      }
+    }
+    
+    .post-header {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 16px 0;
+      
+      &::before {
+        left: -15px;
+        width: 2px;
+        height: 16px;
+      }
+      
+      time {
+        font-size: 12px;
+        margin-bottom: 6px;
+        color: #555;
+      }
+      
+      > .post-content {
+        padding: 0;
+        
+        .post-title-link {
+          font-size: 15px;
+        }
+      }
+    }
+  }
+}
