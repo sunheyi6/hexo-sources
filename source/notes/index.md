@@ -149,8 +149,22 @@ async function loadMemos() {
     
     // Fetch from local JSON file
     console.log('Fetching memos.json...');
-    const response = await fetch('/_data/memos.json');
-    console.log('Response:', response);
+    // Try multiple paths to ensure compatibility with different deployment environments
+    let response;
+    try {
+      // First try the root path
+      response = await fetch('/memos.json');
+      console.log('Response from /memos.json:', response);
+      if (!response.ok) {
+        throw new Error('First path failed');
+      }
+    } catch (e) {
+      // Then try the _data path
+      response = await fetch('/_data/memos.json');
+      console.log('Response from /_data/memos.json:', response);
+    }
+    
+    console.log('Final response:', response);
     
     if (!response.ok) {
       throw new Error(`Error fetching local memos: ${response.status} ${response.statusText}`);
