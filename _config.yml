@@ -45,11 +45,12 @@ post_asset_folder: false
 relative_link: false
 future: true
 highlight:
-  auto_detect: true
+  enable: true
   line_number: true
-  line_threshold: 0
-  tab_replace: ""
-  style: solarized-dark
+  auto_detect: true
+  tab_replace: ''
+  wrap: true
+  hljs: true
 
 # Home page setting
 index_generator:

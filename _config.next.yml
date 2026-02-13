@@ -125,11 +125,12 @@ mobile_layout_economy: true
 
 codeblock:
   theme:
-    light: obsidian
-    dark: obsidian
+    light: github
+    dark: github-dark
   copy_button:
     enable: true
-    style: default
+    style: mac
+  language: true
 
 back2top:
   enable: true
