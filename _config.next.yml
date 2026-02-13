@@ -238,8 +238,8 @@ local_search:
 # ============================================================= #
 
 vendors:
-  internal: cdnjs
-  plugins: cdnjs
+  internal: local
+  plugins: local
 
 pace:
   enable: true

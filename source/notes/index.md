@@ -151,17 +151,27 @@ async function loadMemos() {
     console.log('Fetching memos.json...');
     // Try multiple paths to ensure compatibility with different deployment environments
     let response;
-    try {
-      // First try the root path
-      response = await fetch('/memos.json');
-      console.log('Response from /memos.json:', response);
-      if (!response.ok) {
-        throw new Error('First path failed');
+    let pathsToTry = [
+      '/memos.json',
+      '/_data/memos.json',
+      'memos.json',
+      '_data/memos.json',
+      '/notes/memos.json',
+      '/notes/_data/memos.json'
+    ];
+    
+    for (let path of pathsToTry) {
+      try {
+        console.log('Trying path:', path);
+        response = await fetch(path);
+        console.log('Response from', path, ':', response);
+        if (response.ok) {
+          console.log('Successfully fetched from:', path);
+          break;
+        }
+      } catch (e) {
+        console.log('Error trying path', path, ':', e.message);
       }
-    } catch (e) {
-      // Then try the _data path
-      response = await fetch('/_data/memos.json');
-      console.log('Response from /_data/memos.json:', response);
     }
     
     console.log('Final response:', response);
