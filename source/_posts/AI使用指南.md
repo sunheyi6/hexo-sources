@@ -1,10 +1,11 @@
 ---
 title: AI使用指南
+categories:
+  - AI
+description: 记录一下我最近用trae和kimi的一些感想
+abbrlink: 9d573da0
 date: 2026-02-23 07:56:49
 tags:
-categories: 
- - AI
-description: 记录一下我最近用trae和kimi的一些感想
 ---
 记录一下我最近用trae和kimi的一些感想
 <!-- more -->
