@@ -729,10 +729,19 @@ code {
 
 // 文章内容区域
 .post-body {
-  padding: 16px 24px;
+  padding: 24px 32px;
+  // 淡雅米色渐变背景
+  background: linear-gradient(135deg, #faf9f6 0%, #f7f6f2 25%, #f5f4ef 50%, #f7f6f2 75%, #faf9f6 100%);
+  border-radius: 12px;
+  border: 1px solid rgba(230, 225, 215, 0.4);
+  margin: 20px 0;
+  
+  // 优化字体可读性
+  line-height: 1.7;
+  font-size: 1.05rem;
   
   +mobile() {
-    padding: 12px 16px;
+    padding: 16px 20px;
   }
 }
 
@@ -948,10 +957,22 @@ table {
 .sidebar {
   .sidebar-inner {
     border-radius: 16px;
-    background: var(--card-bg-color);
+    // 淡雅米色渐变背景
+    background: linear-gradient(135deg, #f9f8f5 0%, #f6f5f1 25%, #f4f3ee 50%, #f6f5f1 75%, #f9f8f5 100%);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
     margin: 12px;
     padding: 24px;
+    // 精致的边框
+    border: 1px solid rgba(230, 225, 215, 0.5);
+    
+    // 标题样式优化
+    .sidebar-title {
+      color: #333;
+      font-weight: 600;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid rgba(230, 225, 215, 0.6);
+    }
   }
 }
 
@@ -1267,31 +1288,428 @@ body.darkmode {
 
 // 所有文章卡片背景 - 浅色模式（简约样式）
 // 应用于首页和文章详情页的文章卡片
-.post-block {
-  // 简单的暖白色背景
-  background: #ffffff;
+.main-inner .post-block {
+  // 淡雅灰色渐变背景
+  background: linear-gradient(135deg, #f8f8f8 0%, #f5f5f5 25%, #f3f3f3 50%, #f5f5f5 75%, #f8f8f8 100%);
   
   // 柔和的阴影效果
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   
   // 细边框增强对比
-  border: 1px solid rgba(240, 235, 230, 0.6);
+  border: 1px solid rgba(220, 220, 220, 0.6);
+  
+  // 圆角更大更现代
+  border-radius: 16px;
 }
 
 // 深色模式文章卡片背景
 @media (prefers-color-scheme: dark) {
-  .post-block {
-    // 深灰背景
-    background: #2a2a2a;
+  .main-inner .post-block {
+    // 深色渐变背景
+    background: linear-gradient(135deg, #2d2d2d 0%, #2a2a2a 25%, #272727 50%, #2a2a2a 75%, #2d2d2d 100%);
     
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
   }
 }
 
 // NexT darkmode 类适配 - 文章卡片
 body.darkmode .post-block {
-  background: #2a2a2a;
+  background: linear-gradient(135deg, #2d2d2d 0%, #2a2a2a 25%, #272727 50%, #2a2a2a 75%, #2d2d2d 100%);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+// ============================================
+// 首页文章样式 - limboy.me 极简归档风格
+// ============================================
+
+// 首页整体布局调整
+.main-inner.index {
+  padding-top: 20px;
+}
+
+// 首页文章列表整体边框容器
+.main-inner.index.posts-expand {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+// 深色模式首页文章列表边框
+@media (prefers-color-scheme: dark) {
+  .main-inner.index.posts-expand {
+    background: #252525;
+    border: 1px solid #444;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+}
+
+body.darkmode .main-inner.index.posts-expand {
+  background: #252525;
+  border: 1px solid #444;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+// 首页文章卡片 - 完全移除所有视觉效果，极简列表风格
+.main-inner.index .post-block {
+  // 彻底移除背景、边框和阴影
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  
+  // 紧凑的间距
+  margin-bottom: 0 !important;
+  padding: 0 !important;
+  
+  // 底部边框作为分隔线
+  border-bottom: 1px solid #f0f0f0 !important;
+  
+  // 彻底移除所有悬停效果
+  &:hover {
+    box-shadow: none !important;
+    transform: none !important;
+    background: none !important;
+  }
+  
+  // 最后一个文章不显示底部边框
+  &:last-of-type {
+    border-bottom: none !important;
+  }
+}
+
+// 隐藏首页文章内容区域
+.main-inner.index .post-body {
+  display: none;
+}
+
+// 隐藏首页文章底部
+.main-inner.index .post-footer {
+  display: none;
+}
+
+// 首页文章头部布局 - limboy 风格：标题和日期在同一行
+.main-inner.index .post-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 14px 0 !important;
+  margin-bottom: 0 !important;
+  text-align: left !important;
+  
+  // 标题样式
+  .post-title {
+    flex: 1;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 16px !important;
+    font-weight: 400 !important;
+    line-height: 1.5;
+    text-align: left !important;
+    
+    // 标题链接样式
+    .post-title-link {
+      color: #333;
+      border-bottom: none;
+      transition: color 0.2s ease;
+      
+      &:hover {
+        color: #0066cc;
+      }
+      
+      // 移除下划线动画
+      &::before {
+        display: none;
+      }
+    }
+  }
+  
+  // 日期容器
+  .post-meta-container {
+    flex-shrink: 0;
+    margin: 0 0 0 20px !important;
+    padding: 0 !important;
+    text-align: right;
+  }
+}
+
+// 文章元信息样式
+.main-inner.index .post-meta {
+  font-size: 14px;
+  color: #999;
+}
+
+// 只显示第一个 meta item（日期）
+.main-inner.index .post-meta-item {
+  display: none;
+  
+  &:first-child {
+    display: inline-block;
+    margin: 0 !important;
+    
+    // 隐藏分隔符
+    &::before {
+      display: none;
+    }
+  }
+}
+
+// 隐藏日期中的图标和文本，只显示时间
+.main-inner.index .post-meta-item:first-child {
+  .post-meta-item-icon,
+  .post-meta-item-text {
+    display: none;
+  }
+  
+  time {
+    font-size: 14px;
+    color: #999;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    border-bottom: none;
+  }
+}
+
+// 置顶文章标记
+.main-inner.index .post-sticky-flag {
+  display: none;
+}
+
+// 首页分页样式优化
+.main-inner.index .pagination {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  margin-top: 40px;
+  padding: 20px 0;
+  border-top: 1px solid #f0f0f0;
+  
+  .page-number,
+  .prev,
+  .next {
+    background: none;
+    border: none;
+    color: #666;
+    font-size: 14px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    
+    &:hover {
+      background: #f5f5f5;
+      color: #333;
+    }
+    
+    &.current {
+      background: #333;
+      color: #fff;
+    }
+  }
+}
+
+// 深色模式侧边栏样式
+@media (prefers-color-scheme: dark) {
+  .sidebar .sidebar-inner {
+    // 深色渐变背景
+    background: linear-gradient(135deg, #2e2e2e 0%, #2b2b2b 25%, #282828 50%, #2b2b2b 75%, #2e2e2e 100%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    
+    .sidebar-title {
+      color: #e0e0e0;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+    }
+  }
+  
+  // 深色模式文章内容区域
+  .post-body {
+    background: linear-gradient(135deg, #2e2e2e 0%, #2b2b2b 25%, #282828 50%, #2b2b2b 75%, #2e2e2e 100%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+  
+  // 深色模式首页文章卡片 - limboy 风格
+  .main-inner.index .post-block {
+    background: none !important;
+    border: none !important;
+    border-bottom: 1px solid #333 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    margin-bottom: 0 !important;
+    padding: 0 !important;
+    
+    &:hover {
+      box-shadow: none !important;
+      transform: none !important;
+      background: none !important;
+    }
+    
+    &:last-of-type {
+      border-bottom: none !important;
+    }
+  }
+  
+  // 深色模式首页文章头部
+  .main-inner.index .post-header {
+    padding: 14px 0 !important;
+    
+    .post-title .post-title-link {
+      color: #e0e0e0;
+      
+      &:hover {
+        color: #66b3ff;
+      }
+    }
+    
+    .post-meta-container time {
+      color: #888;
+    }
+  }
+  
+  // 深色模式首页分页
+  .main-inner.index .pagination {
+    border-top-color: #333;
+    
+    .page-number,
+    .prev,
+    .next {
+      color: #999;
+      
+      &:hover {
+        background: #333;
+        color: #e0e0e0;
+      }
+      
+      &.current {
+        background: #e0e0e0;
+        color: #1a1a1a;
+      }
+    }
+  }
+}
+
+// NexT darkmode 类适配 - 侧边栏
+body.darkmode .sidebar .sidebar-inner {
+  background: linear-gradient(135deg, #2e2e2e 0%, #2b2b2b 25%, #282828 50%, #2b2b2b 75%, #2e2e2e 100%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  
+  .sidebar-title {
+    color: #e0e0e0;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+  }
+}
+
+// NexT darkmode 类适配 - 文章内容区域
+body.darkmode .post-body {
+  background: linear-gradient(135deg, #2e2e2e 0%, #2b2b2b 25%, #282828 50%, #2b2b2b 75%, #2e2e2e 100%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+// NexT darkmode 类适配 - 首页文章卡片
+body.darkmode .main-inner.index .post-block {
+  background: none !important;
+  border: none !important;
+  border-bottom: 1px solid #333 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  margin-bottom: 0 !important;
+  padding: 0 !important;
+  
+  &:hover {
+    box-shadow: none !important;
+    transform: none !important;
+    background: none !important;
+  }
+  
+  &:last-of-type {
+    border-bottom: none !important;
+  }
+}
+
+// NexT darkmode 类适配 - 隐藏首页文章内容区域
+body.darkmode .main-inner.index .post-body {
+  display: none;
+}
+
+// NexT darkmode 类适配 - 首页文章头部
+body.darkmode .main-inner.index .post-header {
+  padding: 14px 0 !important;
+  
+  .post-title .post-title-link {
+    color: #e0e0e0;
+    
+    &:hover {
+      color: #66b3ff;
+    }
+  }
+  
+  .post-meta-container time {
+    color: #888;
+  }
+}
+
+// NexT darkmode 类适配 - 首页分页
+body.darkmode .main-inner.index .pagination {
+  background: none !important;
+  border: none !important;
+  border-top: 1px solid #333 !important;
+  box-shadow: none !important;
+  
+  .page-number,
+  .prev,
+  .next {
+    background: none;
+    color: #999;
+    
+    &:hover {
+      background: #333;
+      color: #e0e0e0;
+    }
+    
+    &.current {
+      background: #e0e0e0;
+      color: #1a1a1a;
+    }
+  }
+}
+
+// ============================================
+// 顶部导航栏/Header样式 - 蓝色渐变效果
+// ============================================
+
+// 顶部header区域（站点标题和导航）
+.header,
+.site-header,
+.header-inner,
+.site-nav {
+  // 淡雅灰色渐变背景
+  background: linear-gradient(135deg, #f7f7f7 0%, #f4f4f4 25%, #f2f2f2 50%, #f4f4f4 75%, #f7f7f7 100%);
+  border-bottom: 1px solid rgba(220, 220, 220, 0.7);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+// 深色模式顶部header区域
+@media (prefers-color-scheme: dark) {
+  .header,
+  .site-header,
+  .header-inner,
+  .site-nav {
+    background: linear-gradient(135deg, #2f2f2f 0%, #2c2c2c 25%, #292929 50%, #2c2c2c 75%, #2f2f2f 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+  }
+}
+
+// NexT darkmode 类适配 - 顶部header区域
+body.darkmode .header,
+body.darkmode .site-header,
+body.darkmode .header-inner,
+body.darkmode .site-nav {
+  background: linear-gradient(135deg, #2f2f2f 0%, #2c2c2c 25%, #292929 50%, #2c2c2c 75%, #2f2f2f 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
 }
