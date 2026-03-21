@@ -59,10 +59,10 @@ menu_settings:
 
 sidebar:
   position: left
-  display: false
+  display: always
   padding: 20
   offset: 10
-  auto_expand: false
+  auto_expand: true
 
 avatar:
   url: /images/avatar.jpg
