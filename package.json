@@ -7,7 +7,7 @@
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "server": "hexo server",
-    "sync": "node scripts/sync-memos.js",
+    //"sync": "node scripts/sync-memos.js",
     "img:organize": "node scripts/manage-images.js organize",
     "img:process": "node scripts/manage-images.js process",
     "img:all": "node scripts/manage-images.js all"
