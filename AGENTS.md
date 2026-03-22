@@ -6,14 +6,6 @@
 hexo clean; hexo generate; hexo server
 ```
 
-或者使用 npm 脚本：
-
-```bash
-npm run clean
-npm run build
-npm run server
-```
-
 ## 常用命令
 
 | 命令 | 说明 |
@@ -43,3 +35,8 @@ npm run img:all
 - `source/images/` - 图片资源目录（按年/月自动分类）
 - `themes/next/` - Next 主题目录
 - `scripts/` - 自定义脚本目录
+
+## 工作准则
+
+- **不要自动提交更改**: 当用户说"记一下"时，只需记录信息，不要自动执行 `git commit`
+  - 应等待用户明确指示后再提交更改

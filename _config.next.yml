@@ -22,7 +22,7 @@ custom_file_path:
 #scheme: Pisces
 scheme: Gemini
 
-darkmode: false
+darkmode: true
 
 
 # ============================================================= #
@@ -40,17 +40,72 @@ creative_commons:
 # ============================================================= #
 
 menu:
-  首页: / || fa fa-home
-  文章: /archives/ || fa fa-archive
+  首页: / || fa fa-bell
   分类: /categories/ || fa fa-th
-  标签: /tags/ || fa fa-tags
-  项目: /projects/ || fa fa-code
-  碎碎念: /notes/ || fa fa-comment
+  标签: /tags/ || fa  fa-tags 
+  文章: /archives/ || fa  fa-archive
   关于: /about/ || fa fa-user
+  友链: /links/ || fa fa-link
+  留言: /message/ || fa fa-envelope
+  # Docs:
+  #   default: /docs/ || fa fa-book
+
+  #   Getting Started:
+  #     default: /getting-started/ || fa fa-flag
+  #     Installation: /installation.html || fa fa-download
+  #     Deployment: /deployment.html || fa fa-upload
+  #     Configuration: /configuration.html || fa fa-wrench
+  #     Upgrade: /upgrade.html || fa fa-history
+
+  #   Theme Settings:
+  #     default: /theme-settings/ || fa fa-star
+  #     Sidebar: /sidebar.html || fa fa-bars
+  #     Footer: /footer.html || fa fa-sticky-note
+  #     Posts: /posts.html || fa fa-paragraph
+  #     Custom Pages: /custom-pages.html || fa fa-swatchbook
+  #     Miscellaneous: /miscellaneous.html || fa fa-university
+  #     SEO: /seo.html || fa fa-external-link-square-alt
+  #     i18n: /internationalization.html || fa fa-language
+
+  #   Tag Plugins:
+  #     default: /tag-plugins/ || fa fa-rocket
+  #     Button: /button.html || fa fa-cube
+  #     Caniuse: /caniuse.html || fa fa-signal
+  #     Group Pictures: /group-pictures.html || fa fa-images
+  #     Label: /label.html || fa fa-hat-wizard
+  #     Link Grid: /link-grid.html || fa fa-grip-vertical
+  #     Mermaid: /mermaid.html || fa fa-project-diagram
+  #     WaveDrom: /wavedrom.html || fa fa-diagram-predecessor
+  #     Note: /note.html || fa fa-adjust
+  #     PDF: /pdf.html || fa fa-file-pdf
+  #     Tabs: /tabs.html || fa fa-columns
+
+  #   Third Party Plugins:
+  #     default: /third-party-services/ || fa fa-puzzle-piece
+  #     Math Equations: /math-equations.html || fa fa-square-root-alt
+  #     External Libraries: /external-libraries.html || fa fa-lightbulb
+  #     Comment Systems: /comments.html || fa fa-comment-alt
+  #     Post Widgets: /post-widgets.html || fa fa-gift
+  #     Statistics and Analytics: /statistics-and-analytics.html || fa fa-chart-pie
+  #     Search Services: /search-services.html || fab fa-algolia
+  #     Chat Services: /chat-services.html || fa fa-comments
+
+  #   Advanced Settings:
+  #     default: /advanced-settings/ || fa fa-cog
+  #     Vendors: /vendors.html || fa fa-plug
+  #     Custom Files: /custom-files.html || fa fa-palette
+  #     Injects: injects.html || fa fa-layer-group
+  #     Front Matter: /front-matter.html || fa fa-edit
+
+  #   Troubleshooting: /troubleshooting.html || fa fa-life-ring
+
+  # Plugins: /plugins/ || fa fa-flask
+  #sitemap: /sitemap.xml || fa fa-sitemap
+  #commonweal: /404/ || fa fa-heartbeat
 
 menu_settings:
   icons: true
-  badges: false
+  badges: true
 
 
 # ============================================================= #
@@ -59,10 +114,9 @@ menu_settings:
 
 sidebar:
   position: left
-  display: always
-  padding: 20
-  offset: 10
-  auto_expand: true
+  display: post
+  padding: 18
+  offset: 12
 
 avatar:
   url: /images/avatar.jpg
@@ -70,17 +124,16 @@ avatar:
 
 social:
   GitHub: https://github.com/sunheyi6 || fab fa-github
-  Email: shyyouarebest@gmail.com || fa fa-envelope
   RSS: /atom.xml || fa fa-rss
 
 social_icons:
   enable: true
   icons_only: true
-  transition: false
+  transition: true
 
 toc:
   enable: true
-  number: false
+  number: true
   wrap: true
 
 
@@ -114,7 +167,7 @@ symbols_count_time:
   item_text_total: true
 
 post_edit:
-  enable: false
+  enable: true
   url: https://github.com/next-theme/theme-next-docs/edit/master/source/
 
 
@@ -127,11 +180,10 @@ mobile_layout_economy: true
 codeblock:
   theme:
     light: default
-    dark: dark
+    dark: stackoverflow-dark
   copy_button:
     enable: true
     style: default
-  language: false
 
 back2top:
   enable: true
@@ -156,7 +208,7 @@ font:
 
 index_with_subtitle: true
 
-exturl: false
+exturl: true
 
 google_site_verification: 5AUIVYTbHIAuz-eQtxSfZbWW5eg9_EVZMSQycIuXrG0
 
@@ -196,7 +248,7 @@ pjax: true
 mediumzoom: true
 
 motion:
-  enable: false
+  async: true
 
 
 # ============================================================= #
@@ -216,8 +268,8 @@ disqus:
 # ================= Statistics and Analytics ================== #
 # ============================================================= #
 
-#google_analytics:
-  #tracking_id: G-MZXCQSZ8FT
+google_analytics:
+  tracking_id: G-MZXCQSZ8FT
 
 
 # ============================================================= #
@@ -239,25 +291,7 @@ local_search:
 # ============================================================= #
 
 vendors:
-  internal: local
-  plugins: local
+  internal: cdnjs
+  plugins: cdnjs
 
-pace:
-  enable: true
-  # All available colors:
-  # black | blue | green | orange | pink | purple | red | silver | white | yellow
-  color: blue
-  # All available themes:
-  # big-counter | bounce | barber-shop | center-atom | center-circle | center-radar | center-simple
-  # corner-indicator | fill-left | flat-top | flash | loading-bar | mac-osx | material | minimal
-  theme: minimal
-
-busuanzi_count:
-  enable: true
-  total_visitors: true
-  total_visitors_icon: user
-  total_views: true
-  total_views_icon: eye
-  post_views: true
-  post_views_icon: eye
 
