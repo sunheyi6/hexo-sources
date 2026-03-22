@@ -4,6 +4,7 @@ abbrlink: 68e667c2
 date: 2026-03-22 18:59:42
 tags:
 categories:
+- AI
 description:
 ---
 一些有意思的思考与实践，分享给其他开发者

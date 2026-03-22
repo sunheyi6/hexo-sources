@@ -4,6 +4,7 @@ abbrlink: 761f7a5d
 date: 2026-03-20 22:57:10
 tags:
 categories:
+-AI
 description:
 ---
 学习agent原理
