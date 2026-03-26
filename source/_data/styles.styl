@@ -274,3 +274,110 @@ body {
     }
   }
 }
+
+/* ==================== Projects Page ==================== */
+.project-showcase {
+  --project-accent: #f97316;
+  --project-text: #1e293b;
+  --project-muted: #64748b;
+  margin: 12px 0 24px;
+}
+
+.project-showcase-header {
+  margin-bottom: 20px;
+  padding: 18px 20px;
+  border-radius: 14px;
+  background: linear-gradient(140deg, rgba(248, 250, 252, 0.9), rgba(255, 247, 237, 0.95));
+  border: 1px solid rgba(249, 115, 22, 0.22);
+
+  h2 {
+    margin: 0;
+    color: var(--project-text);
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  p {
+    margin: 8px 0 0;
+    color: var(--project-muted);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+}
+
+.project-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.project-card {
+  position: relative;
+  padding: 18px;
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(248, 250, 252, 0.9));
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    border-color: rgba(249, 115, 22, 0.45);
+    box-shadow: 0 16px 32px rgba(15, 23, 42, 0.12);
+  }
+}
+
+.project-title {
+  margin: 0;
+  color: var(--project-text);
+  font-size: 18px;
+  line-height: 1.45;
+}
+
+.project-description {
+  margin: 10px 0 14px;
+  color: var(--project-muted);
+  line-height: 1.75;
+  font-size: 14px;
+}
+
+.project-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.project-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: #ea580c;
+  background: rgba(255, 237, 213, 0.9);
+  border: 1px solid rgba(249, 115, 22, 0.3);
+  padding: 6px 10px;
+  border-radius: 999px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: #c2410c;
+    background: rgba(254, 215, 170, 0.95);
+    border-color: rgba(234, 88, 12, 0.45);
+  }
+}
+
+@media (max-width: 767px) {
+  .project-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .project-showcase-header {
+    padding: 16px;
+
+    h2 {
+      font-size: 20px;
+    }
+  }
+}

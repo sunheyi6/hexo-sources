@@ -41,6 +41,7 @@ creative_commons:
 
 menu:
   首页: / || fa fa-bell
+  项目: /projects/ || fa fa-briefcase
   分类: /categories/ || fa fa-th
   标签: /tags/ || fa  fa-tags 
   文章: /archives/ || fa  fa-archive
@@ -293,5 +294,3 @@ local_search:
 vendors:
   internal: cdnjs
   plugins: cdnjs
-
-
