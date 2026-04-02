@@ -1,0 +1,20 @@
+<!-- Sunny / Leaves overlay (复刻 theme-switch.pages.dev) -->
+<div id="leaves-overlay">
+  <video id="leaves-video" src="/images/leaves.mp4" autoplay muted loop playsinline></video>
+</div>
+
+<!-- Forest ambience audio -->
+<audio id="forest-audio" src="/images/forest.mp3" loop preload="auto"></audio>
+
+<script>
+(function() {
+  document.body.classList.add('sunny');
+  var leavesVid = document.getElementById('leaves-video');
+  if (leavesVid) leavesVid.play().catch(function(){});
+  var audio = document.getElementById('forest-audio');
+  if (audio) {
+    audio.volume = 0.5;
+    audio.play().catch(function(){});
+  }
+})();
+</script>

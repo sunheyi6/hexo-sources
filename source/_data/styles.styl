@@ -38,19 +38,49 @@
 }
 
 body {
-    background:url(/images/background.jpg) !important;
-    background-repeat: no-repeat !important;
-    background-attachment:fixed !important; //不重复
-    background-size: cover !important;      //填充
-    background-position:50% 50% !important;
-      font-size: 18px;
+  background: #f2efe9 !important;
+  font-size: 18px;
+}
+
+// 复刻 theme-switch.pages.dev 的 Sunny 效果
+@property --bg    { syntax: '<color>'; inherits: true; initial-value: #f2efe9; }
+@property --text  { syntax: '<color>'; inherits: true; initial-value: #1a1a1a; }
+@property --mid   { syntax: '<color>'; inherits: true; initial-value: #888888; }
+@property --line  { syntax: '<color>'; inherits: true; initial-value: #d8d5cf; }
+@property --accent { syntax: '<color>'; inherits: true; initial-value: #8b7355; }
+
+body.sunny {
+  --bg: #f2efe9;
+  --text: #1a1a1a;
+  --mid: #888888;
+  --line: #d8d5cf;
+  --accent: #8b7355;
+  background: var(--bg) !important;
+  transition: --bg 400ms ease, --text 400ms ease, --mid 400ms ease, --line 400ms ease, --accent 400ms ease;
+}
+
+#leaves-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0;
+  mix-blend-mode: multiply;
+  transition: opacity 700ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+body.sunny #leaves-overlay { opacity: 1; }
+
+#leaves-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 
 //博客内容透明化
 //文章内容的透明度设置
 .content-wrap {
-  opacity: 0.8;
+  opacity: 0.95;
 }
 
 //侧边框的透明度设置
