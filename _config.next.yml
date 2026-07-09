@@ -7,8 +7,9 @@
 # ============================================================= #
 
 custom_file_path:
-  sidebar: source/_data/sidebar.njk
-  footer: source/_data/footer.njk
+  head: source/_data/head.njk
+  #sidebar: source/_data/sidebar.njk
+  #footer: source/_data/footer.njk
   bodyEnd: source/_data/body-end.njk
   variable: source/_data/variables.styl
   style: source/_data/styles.styl
@@ -23,7 +24,8 @@ custom_file_path:
 #scheme: Pisces
 scheme: Gemini
 
-darkmode: true
+# 关闭 NexT 自带的系统偏好深色切换，改用页面右下角手动切换
+darkmode: false
 
 
 # ============================================================= #
@@ -169,7 +171,7 @@ symbols_count_time:
   item_text_total: true
 
 post_edit:
-  enable: true
+  enable: false
   url: https://github.com/next-theme/theme-next-docs/edit/master/source/
 
 
@@ -293,5 +295,5 @@ local_search:
 # ============================================================= #
 
 vendors:
-  internal: cdnjs
+  internal: local
   plugins: cdnjs

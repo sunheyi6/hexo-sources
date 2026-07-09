@@ -1,0 +1,9 @@
+<script>
+(function() {
+  var saved = localStorage.getItem('hexo-theme-mode');
+  var isDark = saved ? saved === 'dark' : true;
+  if (isDark) {
+    document.documentElement.classList.add('dark-mode');
+  }
+})();
+</script>

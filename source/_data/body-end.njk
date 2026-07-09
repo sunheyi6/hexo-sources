@@ -1,20 +1,45 @@
-<!-- Sunny / Leaves overlay (复刻 theme-switch.pages.dev) -->
-<div id="leaves-overlay">
-  <video id="leaves-video" src="/images/leaves.mp4" autoplay muted loop playsinline></video>
-</div>
-
 <!-- Forest ambience audio -->
 <audio id="forest-audio" src="/images/forest.mp3" loop preload="auto"></audio>
 
+<!-- 主题切换按钮 -->
+<button id="theme-toggle" class="theme-toggle" aria-label="切换主题">
+  <i class="fas fa-moon"></i>
+</button>
+
 <script>
 (function() {
-  document.body.classList.add('sunny');
-  var leavesVid = document.getElementById('leaves-video');
-  if (leavesVid) leavesVid.play().catch(function(){});
+  var toggle = document.getElementById('theme-toggle');
+  var icon = toggle.querySelector('i');
+  var html = document.documentElement;
+  var storageKey = 'hexo-theme-mode';
   var audio = document.getElementById('forest-audio');
+
+  function setMode(isDark) {
+    if (isDark) {
+      html.classList.add('dark-mode');
+      icon.classList.remove('fa-sun');
+      icon.classList.add('fa-moon');
+    } else {
+      html.classList.remove('dark-mode');
+      icon.classList.remove('fa-moon');
+      icon.classList.add('fa-sun');
+    }
+    localStorage.setItem(storageKey, isDark ? 'dark' : 'light');
+  }
+
+  // 与 head.njk 中的初始化保持一致，主要用于设置图标
+  var saved = localStorage.getItem(storageKey);
+  var isDark = saved ? saved === 'dark' : true;
+  setMode(isDark);
+
+  toggle.addEventListener('click', function() {
+    setMode(!html.classList.contains('dark-mode'));
+  });
+
   if (audio) {
     audio.volume = 0.5;
-    audio.play().catch(function(){});
+    // 取消自动播放，避免打扰
+    // audio.play().catch(function(){});
   }
 })();
 </script>

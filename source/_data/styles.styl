@@ -38,7 +38,7 @@
 }
 
 body {
-  background: #f2efe9 !important;
+  background: var(--body-bg-color, #f2efe9);
   font-size: 18px;
 }
 
@@ -55,26 +55,10 @@ body.sunny {
   --mid: #888888;
   --line: #d8d5cf;
   --accent: #8b7355;
-  background: var(--bg) !important;
+  background: var(--bg);
   transition: --bg 400ms ease, --text 400ms ease, --mid 400ms ease, --line 400ms ease, --accent 400ms ease;
 }
 
-#leaves-overlay {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 999;
-  opacity: 0;
-  mix-blend-mode: multiply;
-  transition: opacity 700ms cubic-bezier(0.23, 1, 0.32, 1);
-}
-body.sunny #leaves-overlay { opacity: 1; }
-
-#leaves-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
 
 
 //博客内容透明化
@@ -90,7 +74,7 @@ body.sunny #leaves-overlay { opacity: 1; }
 
 //菜单栏的透明度设置
 .header-inner {
-  background: rgba(255,255,255,0.9);
+  background: var(--content-bg-color);
 }
 
 //搜索框（local-search）的透明度设置
@@ -409,5 +393,82 @@ body.sunny #leaves-overlay { opacity: 1; }
     h2 {
       font-size: 20px;
     }
+  }
+}
+
+// =============================================================
+// 手动深色/亮色切换
+// =============================================================
+html.dark-mode {
+  color-scheme: dark;
+
+  --body-bg-color: $body-bg-color-dark;
+  --content-bg-color: $content-bg-color-dark;
+  --card-bg-color: $card-bg-color-dark;
+  --text-color: $text-color-dark;
+  --selection-bg: $selection-bg-dark;
+  --selection-color: $selection-color-dark;
+  --blockquote-color: $blockquote-color-dark;
+  --link-color: $link-color-dark;
+  --link-hover-color: $link-hover-color-dark;
+  --brand-color: $brand-color-dark;
+  --brand-hover-color: $brand-hover-color-dark;
+  --table-row-odd-bg-color: $table-row-odd-bg-color-dark;
+  --table-row-hover-bg-color: $table-row-hover-bg-color-dark;
+  --menu-item-bg-color: $menu-item-bg-color-dark;
+  --theme-color: $theme-color-dark;
+
+  --btn-default-bg: $btn-default-bg-dark;
+  --btn-default-color: $btn-default-color-dark;
+  --btn-default-border-color: $btn-default-border-color-dark;
+  --btn-default-hover-bg: $btn-default-hover-bg-dark;
+  --btn-default-hover-color: $btn-default-hover-color-dark;
+  --btn-default-hover-border-color: $btn-default-hover-border-color-dark;
+
+  --highlight-background: $highlight-background-dark;
+  --highlight-foreground: $highlight-foreground-dark;
+  --highlight-gutter-background: $highlight-gutter-background-dark;
+  --highlight-gutter-foreground: $highlight-gutter-foreground-dark;
+
+  img {
+    opacity: .75;
+
+    &:hover {
+      opacity: .9;
+    }
+  }
+
+  iframe {
+    color-scheme: light;
+  }
+}
+
+// 右下角主题切换按钮
+.theme-toggle {
+  position: fixed;
+  right: 20px;
+  bottom: 90px;
+  z-index: 9999;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--content-bg-color);
+  color: var(--text-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 44px;
+  text-align: center;
+  transition: transform .2s ease, box-shadow .2s ease;
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .2);
+  }
+
+  &:focus {
+    outline: none;
   }
 }
