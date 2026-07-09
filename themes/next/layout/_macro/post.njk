@@ -19,8 +19,8 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="{{ page.title + ' | ' + title }}">
-      <meta itemprop="description" content="{{ page.description }}">
+      <meta itemprop="name" content="{{ escape_html(page.title or '') + ' | ' + title }}">
+      <meta itemprop="description" content="{{ escape_html(page.description or '') }}">
     </span>
 
     {%- if post.header !== false %}
@@ -64,7 +64,31 @@
     {#################}
     <div class="post-body{% if post.direction and post.direction.toLowerCase() === 'rtl' %} rtl{% endif %}" itemprop="articleBody">
       {%- if is_index %}
-        
+        {%- if post.description and theme.excerpt_description %}
+          <p>{{ post.description }}</p>
+          <!--noindex-->
+          {%- if theme.read_more_btn %}
+            <div class="post-button">
+              <a class="btn" href="{{ url_for(post.path) }}">
+                {{ __('post.read_more') }} &raquo;
+              </a>
+            </div>
+          {%- endif %}
+          <!--/noindex-->
+        {% elif post.excerpt %}
+          {{ post.excerpt }}
+          <!--noindex-->
+          {%- if theme.read_more_btn %}
+            <div class="post-button">
+              <a class="btn" href="{{ url_for(post.path) }}#more" rel="contents">
+                {{ __('post.read_more') }} &raquo;
+              </a>
+            </div>
+          {%- endif %}
+          <!--/noindex-->
+        {% else %}
+          {{ post.content }}
+        {%- endif %}
       {% else %}
         {{- next_inject('postBodyStart') }}
         {{- post.content }}
@@ -110,14 +134,14 @@
           <div class="post-nav">
             <div class="post-nav-item">
               {%- if prev %}
-                <a href="{{ url_for(prev.path) }}" rel="prev" title="{{ prev.title }}">
+                <a href="{{ url_for(prev.path) }}" rel="prev" title="{{ escape_html(prev.title or '') }}">
                   <i class="fa fa-angle-left"></i> {{ prev.title }}
                 </a>
               {%- endif %}
             </div>
             <div class="post-nav-item">
               {%- if next %}
-                <a href="{{ url_for(next.path) }}" rel="next" title="{{ next.title }}">
+                <a href="{{ url_for(next.path) }}" rel="next" title="{{ escape_html(next.title or '') }}">
                   {{ next.title }} <i class="fa fa-angle-right"></i>
                 </a>
               {%- endif %}
