@@ -472,3 +472,172 @@ html.dark-mode {
     outline: none;
   }
 }
+
+// =============================================================
+// 碎碎念 / Memos 页面
+// =============================================================
+.memos-container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+.memos-content {
+  min-height: 200px;
+}
+
+.memos-loading {
+  text-align: center;
+  color: var(--text-color);
+  opacity: .6;
+  padding: 40px 0;
+}
+
+.memos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.memo-item {
+  background: var(--content-bg-color);
+  border: 1px solid rgba(128, 128, 128, .22);
+  border-radius: 12px;
+  padding: 18px 20px;
+  transition: transform .2s ease, box-shadow .2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, .08);
+  }
+}
+
+.memo-time {
+  display: inline-block;
+  padding: 2px 12px;
+  margin-bottom: 10px;
+  font-size: 12.5px;
+  line-height: 1.7;
+  border-radius: 999px;
+  background: rgba(128, 128, 128, .12);
+  color: var(--text-color);
+  opacity: .75;
+}
+
+.memo-content {
+  font-size: 15.5px;
+  line-height: 1.9;
+  color: var(--text-color);
+  word-break: break-word;
+
+  p {
+    margin: 0 0 12px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  blockquote {
+    margin: 12px 0;
+    padding: 4px 14px;
+    border-left: 3px solid rgba(128, 128, 128, .4);
+    color: var(--text-color);
+    opacity: .85;
+  }
+
+  pre {
+    margin: 12px 0;
+    padding: 12px 14px;
+    border-radius: 8px;
+    background: rgba(128, 128, 128, .1);
+    overflow-x: auto;
+
+    code {
+      background: none;
+      padding: 0;
+    }
+  }
+
+  code {
+    padding: 2px 5px;
+    border-radius: 4px;
+    background: rgba(128, 128, 128, .15);
+    font-size: .9em;
+  }
+
+  a {
+    color: var(--link-color);
+    word-break: break-all;
+
+    &:hover {
+      color: var(--link-hover-color);
+    }
+  }
+}
+
+.memo-image {
+  max-width: 100%;
+  border-radius: 8px;
+  margin: 10px 0;
+}
+
+.memo-tag {
+  display: inline-block;
+  margin: 6px 6px 0 0;
+  padding: 1px 10px;
+  font-size: 12px;
+  border-radius: 999px;
+  background: rgba(128, 128, 128, .14);
+  color: var(--text-color);
+  opacity: .8;
+}
+
+.memos-footer {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.memos-hint {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--text-color);
+  opacity: .55;
+}
+
+.memo-button {
+  padding: 6px 22px;
+  border: 1px solid var(--btn-default-border-color);
+  border-radius: 999px;
+  background: var(--btn-default-bg);
+  color: var(--btn-default-color);
+  font-size: 14px;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease;
+
+  &:hover {
+    background: var(--btn-default-hover-bg);
+    color: var(--btn-default-hover-color);
+    border-color: var(--btn-default-hover-border-color);
+  }
+}
+
+.memos-error {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-color);
+
+  h3 {
+    margin-bottom: 10px;
+  }
+
+  pre {
+    margin-top: 14px;
+    padding: 10px;
+    border-radius: 6px;
+    background: rgba(128, 128, 128, .1);
+    font-size: 13px;
+    text-align: left;
+    overflow-x: auto;
+  }
+}
