@@ -41,6 +41,20 @@ npm run img:all
 - **不要自动提交更改**: 当用户说"记一下"时，只需记录信息，不要自动执行 `git commit`
   - 应等待用户明确指示后再提交更改
 
+## 碎碎念 / Memos 记录
+
+- **当用户提及 memo / 碎碎念 / 记一条吐槽 / 随口记录** 时，自动执行：
+
+  ```bash
+  node scripts/add-memo.js "内容"
+  ```
+
+  例如用户说"记一下今天天气不错"，即执行 `node scripts/add-memo.js "今天天气不错"`
+- **不要手改 `source/_data/memos.json`**，一律通过 `scripts/add-memo.js` 写入
+- 一条命令可加多条：`node scripts/add-memo.js "第一条" "第二条"`，每个位置参数一条
+- 脚本自动处理：id 递增、当前 Unix 时间戳、字段与现有条目一致（creator 流殃/shy）、按 createdTs 降序排列
+- 手动添加的 memo **不会推回 Memos 服务端**（`scripts/sync-memos.js` 仅增量拉取，不覆盖本地新增）；页面 `/notes/`（碎碎念）在 `hexo generate` 时由 `scripts/generate-memos-page.js` 自动渲染，无需额外操作
+
 ## 文章写作风格
 
 - 新建文章、扩写或润色时，**一律按 `blog-article` skill 的风格来写**（定义见 `.agents/skills/blog-article/SKILL.md`）：口语化、第一人称、重个人经历与真实感受，用"第一/第二/第三"或"第一步/第二步"编号小节推进，要点用 `- **关键词**：解释` 列表，结尾要有"收"（总结 / 展望 / 提问）

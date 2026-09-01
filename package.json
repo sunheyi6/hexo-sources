@@ -9,10 +9,11 @@
     "server": "hexo server",
     "img:organize": "node scripts/manage-images.js organize",
     "img:process": "node scripts/manage-images.js process",
-    "img:all": "node scripts/manage-images.js all"
+    "img:all": "node scripts/manage-images.js all",
+    "memo:add": "node scripts/add-memo.js"
   },
   "hexo": {
-    "version": "8.1.2"
+    "version": "6.3.0"
   },
   "dependencies": {
     "@waline/hexo-next": "^3.0.1",

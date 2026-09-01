@@ -1,6 +1,6 @@
 ---
 name: blog-article
-description: 以"流殃"个人博客的写作风格撰写、扩写、润色中文博客文章。口语化、第一人称、重个人经历与真实感受、像跟读者聊天。适用于 Hexo 博客（D:\blog\hexo-sources）的新文章、内容扩充、风格调整。触发词：写文章、写博客、写一篇、扩写、润色文章、按我的风格写。English: write/polish/expand casual first-person Chinese blog posts in this personal style, including Hexo front matter.
+description: '以"流殃"个人博客的写作风格撰写、扩写、润色中文博客文章。口语化、第一人称、重个人经历与真实感受、像跟读者聊天。适用于 Hexo 博客（D:\blog\hexo-sources）的新文章、内容扩充、风格调整。触发词：写文章、写博客、写一篇、扩写、润色文章、按我的风格写。English: write/polish/expand casual first-person Chinese blog posts in this personal style, including Hexo front matter.'
 ---
 
 # 博客文章写作（流殃风格）
